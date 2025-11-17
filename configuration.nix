@@ -60,6 +60,8 @@
 
 # Networking
   networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
 # User Account
   users.users.sephid86 = {
@@ -82,9 +84,9 @@
 # System Services
   services.dbus.enable = true;
   services.udisks2.enable = true; # 자동 마운트 지원
-    security.polkit.enable = true; # 권한 관리 지원
-    services.gvfs.enable = true; # Thunar 같은 파일 매니저 기능 지원
-    services.openssh.enable = true;
+  security.polkit.enable = true; # 권한 관리 지원
+  services.gvfs.enable = true; # Thunar 같은 파일 매니저 기능 지원
+  services.openssh.enable = true;
   services.xserver.enable = false; # X 서버 비활성화 명시 (기본값)
 
 # PipeWire (Sound Server)
@@ -92,7 +94,8 @@
       enable = true;
       audio.enable = true;
       pulse.enable = true; # PulseAudio 호환성
-        alsa.enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
       jack.enable = true;
     };
 
@@ -106,7 +109,7 @@
 #   };
 # };
   programs.regreet.enable = true; # regreet 설정 파일을 관리하기 위해 활성화
-    programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
   programs.yazi.enable = true;
 
 
@@ -172,6 +175,7 @@
       easyeffects
       discord
       fastfetch
+      bluez
       ];
 
 # System State Version (매우 중요)

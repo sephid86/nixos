@@ -15,24 +15,31 @@
   time.hardwareClockInLocalTime = false;
 
 # Bootloader
+  boot.consoleLogLevel = 3;
   boot.loader.systemd-boot = {
     enable = true;
-    consoleMode = "auto";
-# consoleLogLevel = 3;
+    consoleMode = "max";
   };
+  # boot.consoleLogLevel = 1;
+  boot.initrd.verbose = false;
 
   boot.loader.efi.canTouchEfiVariables = true;
-  
+  # systemd.logLevel = "err"; 
+  # boot.systemd.showStatus = false;
+
   boot.plymouth = {
     enable = true;
     theme = "breeze";
   };
 
-# initrd.verbose = false;
-
 # Kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "quiet" "splash" ];
+  boot.kernelParams = [
+    "quiet"
+    "splash"
+    "vga=current"
+    "udev.log_priority=5"
+  ];
 
 # Input Method (Fcitx5 for Hangul)
   i18n.defaultLocale = "ko_KR.UTF-8";
@@ -99,7 +106,7 @@
   environment.shellAliases = {
     vi = "nvim";
     sudo = "sudo ";
-    nconfirm = "nix-env --delete-generations old && sudo nix-collect-garbage -d && sudo nixos-rebuild switch";
+    nconfirm = "sudo nixos-rebuild switch && sudo nix-env --delete-generations old && sudo nix-collect-garbage -d";
     nswitch = "sudo nixos-rebuild switch";
     nconf = "sudoedit /etc/nixos/configuration.nix";
   };

@@ -15,11 +15,24 @@
   time.hardwareClockInLocalTime = false;
 
 # Bootloader
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    consoleMode = "auto";
+# consoleLogLevel = 3;
+  };
+
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  boot.plymouth = {
+    enable = true;
+    theme = "breeze";
+  };
+
+# initrd.verbose = false;
 
 # Kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [ "quiet" "splash" ];
 
 # Input Method (Fcitx5 for Hangul)
   i18n.defaultLocale = "ko_KR.UTF-8";
@@ -33,61 +46,83 @@
   nixpkgs.config = {
     allowUnfree = true;
     instructionSet = "x86-64";
-# enable1ultilib 옵션은 존재하지 않으므로 제거합니다.
+    enable1ultilib = true;
   };
 
-  nixpkgs.config.enable1ultilib = true;
-# Hardware Configuration
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
   hardware.enableRedistributableFirmware = true;
 
 # Fonts
-  fonts.fontconfig.enable = true;
-  fonts.packages = with pkgs; [
-    noto-fonts-cjk-sans
+  fonts = {
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        sansSerif = [ "Noto Sans CJK KR" ];
+        serif = [ "Noto Serif CJK KR" ];
+        monospace = [ "D2CodingLigature Nerd Font" "D2Coding" ]; 
+      };
+    };
+    packages = with pkgs; [
+      noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       d2coding
       nerd-fonts.d2coding
       nerd-fonts.symbols-only
       font-awesome
-  ];
-  fonts.fontconfig.defaultFonts = {
-    sansSerif = [ "Noto Sans CJK KR" ];
-    serif = [ "Noto Serif CJK KR" ];
-    monospace = [ "D2CodingLigature Nerd Font" "D2Coding" ]; 
+    ];
   };
 
 # Networking
   networking.networkmanager.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    package = pkgs.bluez; # BlueZ 패키지를 명시적으로 지정합니다.
+      settings = {
+        General = {
+          AutoConnect = "true"; # BlueZ 버전에 따라 지원되지 않을 수 있습니다.
+        };
+        Policy = {
+          AutoEnable = "true";
+        };
+      };
+  };
 
 # User Account
   users.users.sephid86 = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" ]; # audio/video 그룹 추가 권장
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "bluetooth" ]; # audio/video 그룹 추가 권장
   };
 
 # Environment and Editor Aliases
   environment.shellAliases = {
     vi = "nvim";
     sudo = "sudo ";
+    nconfirm = "nix-env --delete-generations old && sudo nix-collect-garbage -d && sudo nixos-rebuild switch";
+    nswitch = "sudo nixos-rebuild switch";
+    nconf = "sudoedit /etc/nixos/configuration.nix";
   };
-  environment.variables.EDITOR = "nvim";
-  environment.variables.VISUAL = "nvim";
+
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
 
 # Neovim Program
-  programs.neovim.enable = true;
-  programs.neovim.vimAlias = true;
+  programs.neovim = {
+    enable = true;
+    vimAlias = true;
+  };
 
 # System Services
   services.dbus.enable = true;
   services.udisks2.enable = true; # 자동 마운트 지원
-  security.polkit.enable = true; # 권한 관리 지원
   services.gvfs.enable = true; # Thunar 같은 파일 매니저 기능 지원
   services.openssh.enable = true;
   services.xserver.enable = false; # X 서버 비활성화 명시 (기본값)
+
+  security.polkit.enable = true; # 권한 관리 지원
 
 # PipeWire (Sound Server)
     services.pipewire = {
@@ -131,52 +166,53 @@
   environment.etc."gtk-3.0/settings.ini".text = ''
     [Settings]
     gtk-cursor-theme-name=Vimix-white-cursors
-      gtk-cursor-theme-size=24
-      '';
+    gtk-cursor-theme-size=24
+    '';
   environment.etc."gtk-4.0/settings.ini".text = ''
     [Settings]
     gtk-cursor-theme-name=Vimix-white-cursors
-      gtk-cursor-theme-size=24
-      '';
+    gtk-cursor-theme-size=24
+    '';
 
 # GTK 모듈 활성화
 # gtk.enable = true;
-  # environment.shellInit = ''
-  #   export CHROME_FLAGS="--enable-features=Vulkan --use-angle=vulkan"
-  # '';
+# environment.shellInit = ''
+#   export CHROME_FLAGS="--enable-features=Vulkan --use-angle=vulkan"
+# '';
 # System Packages
   environment.systemPackages = with pkgs; [
     gcc
-      git
-      wl-clipboard
-      hyprpolkitagent
-      hypridle
-      hyprlock
-      grim
-      slurp
-      vimix-cursors # 커서 패키지는 설치되어 있어야 합니다.
-      papirus-icon-theme
-      adwaita-icon-theme
-      foot
-      waybar
-      wofi
-      google-chrome
-      ffmpegthumbnailer
-      xfce.tumbler
-      xfce.thunar
-      xfce.thunar-volman
-      imagemagick
-      pavucontrol
-      mpv
-      gimp
-      libreoffice
-      vulkan-tools
-      obs-studio
-      easyeffects
-      discord
-      fastfetch
-      bluez
-      ];
+    git
+    python3
+    python3Packages.pip
+    wl-clipboard
+    hyprpolkitagent
+    hypridle
+    hyprlock
+    grim
+    slurp
+    vimix-cursors # 커서 패키지는 설치되어 있어야 합니다.
+    papirus-icon-theme
+    adwaita-icon-theme
+    foot
+    waybar
+    wofi
+    google-chrome
+    ffmpegthumbnailer
+    xfce.tumbler
+    xfce.thunar
+    xfce.thunar-volman
+    imagemagick
+    pavucontrol
+    mpv
+    gimp
+    libreoffice
+    vulkan-tools
+    obs-studio
+    easyeffects
+    discord
+    fastfetch
+    ];
 
 # System State Version (매우 중요)
 # 25.05는 아직 불안정할 수 있어 23.11로 하향 권고합니다.

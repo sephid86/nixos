@@ -1,0 +1,61 @@
+window {
+  background-color: rgba(30, 30, 30, 0.5);
+  border-radius: 8px;
+}
+.cpu-info-container {
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  min-width: 180px;
+  min-height: 120px;
+}
+.main-title-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+.separator-line {
+  background-color: #e64a19;
+  min-height: 1px;
+  margin-bottom: 10px;
+}
+.info-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.cpu-progress {
+  min-height: 10px;
+  margin-bottom: 10px;
+}
+.cpu-progress trough {
+  background-color: transparent;
+  min-height: 10px;
+  min-width: 150px;
+  padding: 0px;
+  border: none;
+}
+.cpu-progress trough progress {
+  background-color: #4caf50;
+  border: none;
+}
+.temp-progress {
+  min-height: 10px;
+}
+.temp-progress trough {
+  background-color: transparent;
+  min-height: 10px;
+  min-width: 150px;
+  padding: 0px;
+  border: none;
+}
+.normal trough progress {
+  background-color: #4caf50;
+}
+.warning trough progress {
+  background-color: #f57c00;
+}
+.critical trough progress {
+  background-color: #e64a19;
+}

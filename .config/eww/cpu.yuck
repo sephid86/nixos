@@ -4,7 +4,7 @@
 (deflisten cpu-temp :interval "1s"
   `~/.config/eww/scripts/cpu_temp.sh`)
 
-(defpoll cpu-model :interval "1h"
+(defpoll cpu-model :interval "24h"
   `grep -m 1 'model name' /proc/cpuinfo | cut -d: -f2 | sed 's/^[ \t]*//'`)
 
 ;; 사용률 정보를 표시하는 내부 위젯 (세로 방향)
@@ -75,7 +75,7 @@
 
 ;; 최종 윈도우 정의
 (defwindow cpu-desktop-widget
-  :geometry (geometry :x "100px"
+  :geometry (geometry :x "120px"
                       :y "100px"
                       :anchor "top left"
                       )

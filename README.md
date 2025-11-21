@@ -1,4 +1,4 @@
-Sephid86 의 NixOS config 파일과 닷파일입니다.<br>
+# Sephid86 의 NixOS config 파일과 닷파일입니다.<br>
 eww 위젯은 직접 작성하였습니다. (스크린샷)<br>
 
 ---

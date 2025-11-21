@@ -75,11 +75,11 @@
 
 ;; 최종 윈도우 정의
 (defwindow cpu-desktop-widget
-  :geometry (geometry :x "120px"
+  :geometry (geometry :x "320px"
                       :y "100px"
                       :anchor "top left"
                       )
-  :stacking "fg"
+  :stacking "bg"
   :monitor 0
   :window-type "desktop"
   :wm-ignore false

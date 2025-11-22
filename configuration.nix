@@ -52,8 +52,8 @@
 # Input Method (Fcitx5 for Hangul)
   i18n.defaultLocale = "ko_KR.UTF-8";
   i18n.inputMethod = {
-    enable = true;
     type = "fcitx5";
+    enable = true;
     fcitx5 = {
       waylandFrontend = true;
       addons = with pkgs; [ fcitx5-hangul qt6Packages.fcitx5-configtool fcitx5-gtk ];
@@ -165,9 +165,21 @@
   programs.hyprland.enable = true;
   programs.yazi.enable = true;
 
+  programs.dconf.profiles.user.databases = [{
+    settings = {
+      "org/gnome/desktop/interface" = {
+        "color-scheme" = "prefer-dark";
+        "gtk-theme" = "Adwaita-dark";
+        "icon-theme" = "Adwaita";
+      };
+    };
+  }];
+
 # Cursor Theme Configuration (시스템 전반 적용, Home Manager 옵션 회피)
 # GTK/XWayland 환경 변수 설정
   environment.sessionVariables = {
+    ELECTRON_ENABLE_WAYLAND = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     # Hyprland 자체 (Wayland 네이티브)
     HYPRCURSOR_THEME = "Vimix-white-cursors";
     HYPRCURSOR_SIZE = "24"; 
@@ -175,7 +187,9 @@
     # XWayland (X 애플리케이션용) 및 GTK
     XCURSOR_THEME = "Vimix-white-cursors";
     XCURSOR_SIZE = "24";
-    GTK_CURSOR_THEME = "Vimix-white-cursors";
+    # GTK_THEME = "Adwaita:dark";
+    # GTK_ICON_THEME = "Adwaita";
+    # GTK_CURSOR_THEME = "Vimix-white-cursors";
     #크롬에서 vulkan 활성화 - 동영상 그래픽 하드웨어 가속 관련
     CHROME_FLAGS = "--enable-features=Vulkan --use-angle=vulkan";
   };
@@ -183,11 +197,15 @@
 # GTK 설정 파일에 직접 기재하여 Greetd 및 GTK 앱에도 적용
   environment.etc."gtk-3.0/settings.ini".text = ''
     [Settings]
+    gtk-theme-name=Adwaita-dark
+    gtk-icon-theme-name=Adwaita
     gtk-cursor-theme-name=Vimix-white-cursors
     gtk-cursor-theme-size=24
     '';
   environment.etc."gtk-4.0/settings.ini".text = ''
     [Settings]
+    gtk-theme-name=Adwaita-dark
+    gtk-icon-theme-name=Adwaita
     gtk-cursor-theme-name=Vimix-white-cursors
     gtk-cursor-theme-size=24
     '';
@@ -227,7 +245,10 @@
     vulkan-tools
     obs-studio
     easyeffects
-    discord
+    # discord
+    (discord.override {
+      commandLineArgs = "--enable-wayland-ime";
+    })
     fastfetch
     ];
 

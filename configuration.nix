@@ -169,8 +169,10 @@
     settings = {
       "org/gnome/desktop/interface" = {
         "color-scheme" = "prefer-dark";
-        "gtk-theme" = "Adwaita-dark";
+        "gtk-theme" = "Adwaita";
         "icon-theme" = "Adwaita";
+        "cursor-theme" = "Vimix-white-cursors";
+        "cursor-size" = "24";
       };
     };
   }];

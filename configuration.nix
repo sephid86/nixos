@@ -180,12 +180,6 @@
 # Cursor Theme Configuration (시스템 전반 적용, Home Manager 옵션 회피)
 # GTK/XWayland 환경 변수 설정
   environment.sessionVariables = {
-    GLFW_IM_MODULE = "fcitx";
-    GTK_IM_MODULE  = "fcitx";
-    QT_IM_MODULE   = "fcitx";
-    XMODIFIERS     = "@im=fcitx";
-    SDL_IM_MODULE  = "fcitx";
-
     ELECTRON_ENABLE_WAYLAND = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     # Hyprland 자체 (Wayland 네이티브)

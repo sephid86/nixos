@@ -14,6 +14,10 @@
   time.timeZone = "Asia/Seoul";
   time.hardwareClockInLocalTime = false;
 
+# /etc/nixos/configuration.nix 또는 hardware-configuration.nix 에 추가
+boot.extraModprobeConfig = ''
+  options btusb enable_autosuspend=0
+'';
 # Bootloader
   boot.consoleLogLevel = 3;
   boot.loader.systemd-boot = {
@@ -141,6 +145,8 @@
       jack.enable = true;
     };
 
+
+
 # Display Manager (Greetd + Regreet)
 # X 서버를 사용하지 않으므로 systemd-managed display manager를 사용합니다.
 # services.displayManager.greetd = {
@@ -192,6 +198,7 @@
     git
     python3
     python3Packages.pip
+    jq
     wl-clipboard
     hyprpolkitagent
     hypridle
@@ -203,6 +210,7 @@
     adwaita-icon-theme
     foot
     waybar
+    eww
     wofi
     google-chrome
     ffmpegthumbnailer

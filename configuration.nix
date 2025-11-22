@@ -204,6 +204,7 @@
     hypridle
     hyprlock
     dunst
+    libnotify
     grim
     slurp
     vimix-cursors

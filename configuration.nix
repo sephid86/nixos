@@ -14,26 +14,29 @@
   time.timeZone = "Asia/Seoul";
   time.hardwareClockInLocalTime = false;
 
-# /etc/nixos/configuration.nix 또는 hardware-configuration.nix 에 추가
-boot.extraModprobeConfig = ''
-  options btusb enable_autosuspend=0
-'';
 # Bootloader
-  boot.consoleLogLevel = 3;
-  boot.loader.systemd-boot = {
-    enable = true;
-    consoleMode = "max";
-  };
-  # boot.consoleLogLevel = 1;
-  boot.initrd.verbose = false;
+  boot = {
+# 커널 모듈 설정
+    extraModprobeConfig = "options btusb enable_autosuspend=0";
 
-  boot.loader.efi.canTouchEfiVariables = true;
-  # systemd.logLevel = "err"; 
-  # boot.systemd.showStatus = false;
+# 부팅 로그 레벨 설정
+    consoleLogLevel = 3;
+    initrd.verbose = false;
 
-  boot.plymouth = {
-    enable = true;
-    theme = "breeze";
+# 부트로더 설정
+    loader = {
+      systemd-boot = {
+        enable = true;
+        consoleMode = "max";
+      };
+      efi.canTouchEfiVariables = true;
+    };
+
+# 플리머스(부팅 스플래시 화면) 설정
+    plymouth = {
+      enable = true;
+      theme = "breeze";
+    };
   };
 
 # Kernel
@@ -43,6 +46,7 @@ boot.extraModprobeConfig = ''
     "splash"
     "vga=current"
     "udev.log_priority=5"
+    "usbcore.autosuspend=-1" 
   ];
 
 # Input Method (Fcitx5 for Hangul)
@@ -89,15 +93,23 @@ boot.extraModprobeConfig = ''
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
-    package = pkgs.bluez; # BlueZ 패키지를 명시적으로 지정합니다.
-      settings = {
-        General = {
-          AutoConnect = "true"; # BlueZ 버전에 따라 지원되지 않을 수 있습니다.
-        };
-        Policy = {
-          AutoEnable = "true";
-        };
+    settings = {
+      General = {
+        # Shows battery charge of connected devices on supported
+        # Bluetooth adapters. Defaults to 'false'.
+        Experimental = true;
+        # When enabled other devices can connect faster to us, however
+        # the tradeoff is increased power consumption. Defaults to
+        # 'false'.
+        # FastConnectable = true;
       };
+      Policy = {
+        # Enable all controllers when they are found. This includes
+        # adapters present on start as well as adapters that are plugged
+        # in later on. Defaults to 'true'.
+        AutoEnable = true;
+      };
+    };
   };
 
 # User Account
@@ -136,46 +148,36 @@ boot.extraModprobeConfig = ''
   security.polkit.enable = true; # 권한 관리 지원
 
 # PipeWire (Sound Server)
-    services.pipewire = {
-      enable = true;
-      audio.enable = true;
-      pulse.enable = true; # PulseAudio 호환성
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      jack.enable = true;
-    };
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    audio.enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true; # PulseAudio 호환성
+    jack.enable = true;
+  };
 
-
-
-# Display Manager (Greetd + Regreet)
-# X 서버를 사용하지 않으므로 systemd-managed display manager를 사용합니다.
-# services.displayManager.greetd = {
-#   enable = true;
-#   vt = 1; # 가상 터미널 1번에서 실행 (Wayland 기본)
-#   greeter = {
-#     command = "${pkgs.regreet}/bin/regreet";
-#   };
-# };
-  programs.regreet.enable = true; # regreet 설정 파일을 관리하기 위해 활성화
+  programs.regreet.enable = true;
   programs.hyprland.enable = true;
   programs.yazi.enable = true;
-
 
 # Cursor Theme Configuration (시스템 전반 적용, Home Manager 옵션 회피)
 # GTK/XWayland 환경 변수 설정
   environment.sessionVariables = {
-# Hyprland 자체 (Wayland 네이티브)
+    # Hyprland 자체 (Wayland 네이티브)
     HYPRCURSOR_THEME = "Vimix-white-cursors";
     HYPRCURSOR_SIZE = "24"; 
 
-# XWayland (X 애플리케이션용) 및 GTK
+    # XWayland (X 애플리케이션용) 및 GTK
     XCURSOR_THEME = "Vimix-white-cursors";
     XCURSOR_SIZE = "24";
     GTK_CURSOR_THEME = "Vimix-white-cursors";
+    #크롬에서 vulkan 활성화 - 동영상 그래픽 하드웨어 가속 관련
     CHROME_FLAGS = "--enable-features=Vulkan --use-angle=vulkan";
   };
 
-# GTK 설정 파일에 직접 기재하여 Greetd 및 GTK 앱 보장
+# GTK 설정 파일에 직접 기재하여 Greetd 및 GTK 앱에도 적용
   environment.etc."gtk-3.0/settings.ini".text = ''
     [Settings]
     gtk-cursor-theme-name=Vimix-white-cursors
@@ -187,11 +189,6 @@ boot.extraModprobeConfig = ''
     gtk-cursor-theme-size=24
     '';
 
-# GTK 모듈 활성화
-# gtk.enable = true;
-# environment.shellInit = ''
-#   export CHROME_FLAGS="--enable-features=Vulkan --use-angle=vulkan"
-# '';
 # System Packages
   environment.systemPackages = with pkgs; [
     gcc
@@ -205,7 +202,7 @@ boot.extraModprobeConfig = ''
     hyprlock
     grim
     slurp
-    vimix-cursors # 커서 패키지는 설치되어 있어야 합니다.
+    vimix-cursors
     papirus-icon-theme
     adwaita-icon-theme
     foot
@@ -229,7 +226,5 @@ boot.extraModprobeConfig = ''
     fastfetch
     ];
 
-# System State Version (매우 중요)
-# 25.05는 아직 불안정할 수 있어 23.11로 하향 권고합니다.
   system.stateVersion = "25.05"; 
 }

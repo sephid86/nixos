@@ -200,6 +200,7 @@
     hyprpolkitagent
     hypridle
     hyprlock
+    mako
     grim
     slurp
     vimix-cursors

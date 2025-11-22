@@ -125,7 +125,7 @@
   environment.shellAliases = {
     vi = "nvim";
     sudo = "sudo ";
-    nconfirm = "sudo nixos-rebuild switch && sudo nix-env --delete-generations old && sudo nix-collect-garbage -d";
+    nconfirm = "sudo nixos-rebuild switch && sudo nix-collect-garbage -d && sudo nix-env --delete-generations old";
     nswitch = "sudo nixos-rebuild switch";
     nconf = "sudoedit /etc/nixos/configuration.nix";
   };

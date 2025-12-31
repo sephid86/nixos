@@ -1,4 +1,22 @@
 { pkgs, ... }:
+# 아치리눅스에서 nix home-manager 이용할때는
+# home.nix 와 같은 경로에 .config 가 있어야함.
+# 만약 이게 싫으면 아래에서 
+# 이거를 주석 처리 하셈. xdg.configFile = allConfigs;
+# 준비가 완료되면 거침없이 home-manager switch -b backup
+let
+  configDir = ./.config;
+  allConfigs = builtins.listToAttrs (map (name: {
+    inherit name;
+    value = { source = "${configDir}/${name}"; };
+  }) (builtins.filter (name: 
+       name != "dconf" && 
+       name != "fontconfig" &&
+       name != "swaync"
+       # name != "gtk-3.0" &&
+       # name != "gtk-4.0" &&
+     ) (builtins.attrNames (builtins.readDir configDir))));
+in
 
 {
 
@@ -6,6 +24,8 @@
   home.homeDirectory = "/home/sephid86";
   home.stateVersion = "25.11";
   home.enableNixpkgsReleaseCheck = false;
+xdg.configFile = allConfigs;
+  # xdg.configFile.".".source = ./.config;
 
 # nixpkgs.config.allowUnfree = true;
   systemd.user.services.hyprpolkitagent = {

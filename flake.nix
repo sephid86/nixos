@@ -24,7 +24,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "backup";
+	  home-manager.backupFileExtension = "backup";
           # 본인 계정명으로 수정하세요
           home-manager.users.sephid86 = import ./users/sephid86/home.nix;
         }

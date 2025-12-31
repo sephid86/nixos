@@ -1,4 +1,9 @@
 [[mgr.prepend_keymap]]
+on   = [ "g", "c" ]
+run  = "cd /etc/nixos/users/sephid86/.config"
+desc = "NixOS config 로 이동"
+
+[[mgr.prepend_keymap]]
 on   = [ "g", "d" ]
 run  = "cd ~/다운로드"
 desc = "Go ~/Downloads"

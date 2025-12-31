@@ -139,6 +139,7 @@ xdg.configFile = allConfigs;
       imagemagick
       gimp
       libreoffice
+      pciutils
       (discord.override {
        commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
        })
@@ -148,6 +149,7 @@ xdg.configFile = allConfigs;
     EDITOR = "nvim";
     NIXOS_OZONE_WL = "1";
     SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+    QT_QPA_PLATFORM = "wayland";
   };
 
   home.shellAliases = {
@@ -160,7 +162,6 @@ xdg.configFile = allConfigs;
 
     vi = "nvim";
     sudo = "sudo "; # 뒤에 공백이 있어야 별칭 뒤의 명령어도 별칭 인식 가능
-      sgggs = "echo aa";
     ls = "ls --color=auto";
 
 # 백업 및 SSH 관련
@@ -177,6 +178,9 @@ xdg.configFile = allConfigs;
     initExtra = ''
 # Yazi 종료 시 디렉토리 유지 함수 (r)
       function r() {
+  # --- 추가된 부분: 실행 시 무조건 설정 폴더로 이동 ---
+  # builtin cd -- "/etc/nixos/users/sephid86/.config" 2>/dev/null
+  # -----------------------------------------------
         local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
           yazi "$@" --cwd-file="$tmp"
           if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then

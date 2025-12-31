@@ -1,20 +1,32 @@
-{ pkgs, ... }:
+# { pkgs, ... }:
 # 아치리눅스에서 nix home-manager 이용할때는
-# home.nix 와 같은 경로에 .config 가 있어야함.
+# home.nix 와 .config 가 같은 경로에 있어야함.
+# 그리고 아래에서 userPath 주석 바꿔주면 됨.
 # 만약 이게 싫으면 아래에서 
-# 이거를 주석 처리 하셈. xdg.configFile = allConfigs;
+# xdg.configFile = allConfigs; 이거를 주석 처리하셈.
+# 그러면 완전 바닐라 되버림.
 # 준비가 완료되면 거침없이 home-manager switch -b backup
+{ pkgs, lib, config, ... }:
+
 let
+  # 1. 아웃 링크를 걸 실제 하드디스크 상의 절대 경로 변수
+  userPath = "/etc/nixos/users/sephid86";
+  # userPath = "/home/sephid86";
+  
+  # 2. 파일 목록을 읽기 위한 상대 경로
   configDir = ./.config;
+  
+  # 3. 전체 자동화 로직 (mkOutOfStoreSymlink 적용)
   allConfigs = builtins.listToAttrs (map (name: {
     inherit name;
-    value = { source = "${configDir}/${name}"; };
+    value = { 
+      # .config 내부의 모든 파일을 /etc/nixos 주소로 직접 연결합니다.
+      source = config.lib.file.mkOutOfStoreSymlink "${userPath}/.config/${name}"; 
+    };
   }) (builtins.filter (name: 
        name != "dconf" && 
        name != "fontconfig" &&
        name != "swaync"
-       # name != "gtk-3.0" &&
-       # name != "gtk-4.0" &&
      ) (builtins.attrNames (builtins.readDir configDir))));
 in
 

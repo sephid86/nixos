@@ -10,7 +10,7 @@
     [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
 # ./niri.nix
-      # ./fonts.nix
+      ./fonts.nix
     ];
 
 # Time Zone and Hardware Clock Settings

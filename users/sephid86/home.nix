@@ -72,7 +72,13 @@ xdg.configFile = allConfigs;
     fastfetch.enable = true;
     fuzzel.enable = true;
     hyprlock.enable = true;
-    waybar.enable = true;
+    waybar = {
+      enable = true;
+      systemd = {
+        enable = true;
+        target = "graphical-session.target";
+      };
+    };
     obs-studio.enable = true;
   };
 

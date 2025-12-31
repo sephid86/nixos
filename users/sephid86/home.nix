@@ -133,6 +133,7 @@ xdg.configFile = allConfigs;
       playerctl
       grim
       slurp
+      swayimg
       pavucontrol
       eww
       ffmpegthumbnailer

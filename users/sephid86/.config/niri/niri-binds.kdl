@@ -178,10 +178,10 @@ binds {
   Mod+Slash {
     spawn "sh" "-c" "SINK_JSON=$(pw-dump | jq '[.[] | select(.type == \"PipeWire:Interface:Node\") | select(.info.props.\"media.class\" == \"Audio/Sink\") | {id: .id, description: .info.props.\"node.description\"}] | sort_by(.description)'); SINK_NAMES=$(echo \"$SINK_JSON\" | jq -r '.[].description'); SELECTED_NAME=$(echo \"$SINK_NAMES\" | fuzzel --dmenu --cache=$HOME/.cache/sinklist_fuzzel --prompt='Audio Output ' --anchor=top-right --x-margin=60 --y-margin=20 --width=30 --lines=3 --inner-pad=0); if [ -n \"$SELECTED_NAME\" ]; then SINK_ID=$(echo \"$SINK_JSON\" | jq -r \".[] | select(.description == \\\"$SELECTED_NAME\\\") | .id\"); wpctl set-default $SINK_ID; fi"
   }
+// Mod+Shift+Slash { spawn "sh" "-c" "SELECTED=$(bluetoothctl devices | grep 'Device' | fuzzel --dmenu --prompt='Bluetooth Devices ' --width=40) && if [ -n \"$SELECTED\" ]; then bluetoothctl connect $(echo \"$SELECTED\" | awk '{print $2}'); fi" }
 
-  Mod+shift+slash{
-    spawn "sh" "-c" "DEVICES=$(bluetoothctl devices | grep 'Device' | awk '{print $2 \"|\" $3,$4,$5,$6,$7,$8,$9}'); DEVICE_NAMES=$(echo \"$DEVICES\" | cut -d'|' -f2); SELECTED_NAME=$(echo \"$DEVICE_NAMES\" | fuzzel --dmenu --cache=$HOME/cache/blthlist_fuzzel --prompt='Bluetooth Devices ' --anchor=top-right --x-margin=60 --y-margin=20 --width=25 --lines=3); if [ -n \"$SELECTED_NAME\" ]; then MAC_ADDR=$(echo \"$DEVICES\" | grep \"$SELECTED_NAME\" | cut -d'|' -f1); bluetoothctl connect $MAC_ADDR; fi"
-  }
+Mod+shift+slash { spawn "sh" "-c" "SELECTED=$(bluetoothctl devices | grep 'Device' | fuzzel --dmenu --cache=$HOME/.cache/bluetooth_fuzzel --prompt='Bluetooth ' --anchor=top-right --x-margin=60 --y-margin=20 --width=30 --lines=3 --inner-pad=0) && if [ -n \"$SELECTED\" ]; then bluetoothctl connect $(echo \"$SELECTED\" | awk '{print $2}'); fi"; }
+
     // Mod + M을 누르면 플로팅 상태를 유지하며 화면을 꽉 채움
     // Mod+M { spawn "sh" "-c" "niri msg action set-window-height 100%; niri msg action set-window-width 100%; niri msg action center-column"; }
 }

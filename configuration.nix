@@ -34,7 +34,6 @@
     consoleLogLevel = 3;
     initrd = {
       verbose = false;
-      kernelModules = [ "amdgpu" ]; # RX 6500 초기 로딩
     };
 
 # 부트로더 설정
@@ -71,14 +70,14 @@
       addons = with pkgs; [ fcitx5-hangul qt6Packages.fcitx5-configtool fcitx5-gtk ];
     };
   };
-  nixpkgs.hostPlatform = "x86_64-linux";
+  # nixpkgs.hostPlatform = "x86_64-linux";
   nixpkgs = {
 # # 1. 라이젠 5600(Zen 3) CPU 밀착 최적화
-#     hostPlatform = {
+    hostPlatform = {
 #       gcc.arch = "znver3";    # Ryzen 5600 전용 명령어 최적화
 #         gcc.tune = "znver3";    # Zen 3 마이크로아키텍처 튜닝
-#         system = "x86_64-linux";
-#     };
+        system = "x86_64-linux";
+    };
 
 # 2. 패키지 정책 및 호환성 설정
     config = {
@@ -89,10 +88,6 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      libva
-        libva-utils
-    ];
   };
 
   hardware.enableRedistributableFirmware = true;
@@ -188,10 +183,13 @@
     enable = true;
     vimAlias = true;
   };
-
-  # environment.systemPackages = with pkgs; [
-  #   home-manager
-  # ];
+  environment.systemPackages = with pkgs; [
+      vulkan-tools
+      libva-utils
+  ];
+# environment.systemPackages = with pkgs; [
+#   home-manager
+# ];
 
   system.stateVersion = "25.11"; 
 }

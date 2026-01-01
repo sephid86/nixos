@@ -1,40 +1,32 @@
 {
-    // "layer": "top", // Waybar at top layer
-    // "position": "bottom", // Waybar position (top|bottom|left|right)
+    "layer": "bottom", // Waybar at top layer
+    "position": "bottom", // Waybar position (top|bottom|left|right)
     "height": 24, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     //"spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["niri/workspaces", "niri/mode", "niri/scratchpad", "custom/media"],
-    "modules-center": ["niri/window"],
-    //"modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "battery", "battery#bat2", "clock", "tray"],
-    "modules-right": ["mpris", "idle_inhibitor", "temperature", "cpu", "memory","network", "bluetooth", "pulseaudio", "backlight", "keyboard-state", "battery", "battery#bat2", "tray", "custom/notification", "clock"],
-    // Modules configuration
-    // "hyprland/workspaces": {
-    //     "disable-scroll": true,
-    //     "all-outputs": true,
-    //     "warp-on-scroll": false,
-    //     "format": "{name}: {icon}",
-    //     "format-icons": {
-    //         "1": "",
-    //         "2": "",
-    //         "3": "",
-    //         "4": "",
-    //         "5": "",
-    //         "urgent": "",
-    //         "focused": "",
-    //         "default": ""
-    //     }
-    // },
-    "keyboard-state": {
-        "numlock": true,
-        "capslock": true,
-        "format": "{name} {icon}",
-        "format-icons": {
-            "locked": "",
-            "unlocked": ""
-        }
-    },
+    "modules-left": ["niri/workspaces", "niri/mode", "niri/scratchpad", "custom/media", "niri/window", "custom/fcitx5"],
+    "modules-center": [ "clock" ],
+    "modules-right": ["mpris", "idle_inhibitor", "temperature", "cpu", "memory","network", "bluetooth", "pulseaudio", "backlight", "battery", "battery#bat2", "tray", "custom/notification"],
+"custom/fcitx5": {
+    "exec": "~/imedbuslisten/test.lua",
+    "return-type": "json",
+    "format": "{text}",
+"align": 1,
+},
+
+"niri/window": {
+    "format": "{}",
+    "min-length": 50,      // 최대 20자까지만 표시
+    "max-length": 50,      // 최대 20자까지만 표시
+"align": 1,
+//    "rewrite": {
+//        "(.*) — Mozilla Firefox": "   $1", // 제목 수정 (예: 브라우저 이름 간소화)
+//        "(.*) - Visual Studio Code": "   $1"
+//"^(.{20}).*$": "$1…"
+//    },
+    "separate-outputs": true
+},
     "hyprland/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -88,13 +80,23 @@
         // "icon-size": 21,
         "spacing": 10
     },
-    "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        //"format-alt": "{:%Y-%m-%d}"
-        "format": "{:L%Y-%m-%d<small>[%a]</small> <tt><small>%p</small></tt>%I:%M}"
-        //"format": "{:%Y-%m-%d %H:%M}"
-    },
+"clock": {
+
+        "format": "{:L%Y-%m-%d<small>[%a]</small> <tt><small>%p</small></tt>%I:%M}",
+    /* size 속성으로 글자 크기를 조절합니다 (예: 12000은 약 12pt) */
+    "tooltip-format": "<span size='14pt' font_desc='monospace'>{calendar}</span>",
+    "calendar": {
+        "mode": "month",
+        "on-scroll": 1,
+        "format": {
+            "months": "<span color='#ffead3'><b>{}</b></span>",
+            "days": "<span color='#ecc6d9'><b>{}</b></span>",
+            "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+            "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+            "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+        }
+    }
+},
     "cpu": {
         "format": " {usage}%",
 //        "tooltip": false

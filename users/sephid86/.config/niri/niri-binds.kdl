@@ -121,8 +121,8 @@ binds {
 
   Mod+period { consume-or-expel-window-right; }
   Mod+comma  { consume-or-expel-window-left; }
-  Mod+shift+period  { expel-window-from-column; }
   Mod+shift+comma { consume-window-into-column; }
+  Mod+shift+period  { expel-window-from-column; }
   // Mod+BracketLeft  { consume-or-expel-window-left; }
   // Mod+BracketRight { consume-or-expel-window-right; }
 

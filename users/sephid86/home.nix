@@ -124,6 +124,8 @@ xdg.configFile = allConfigs;
 
 # 5. 사용자별 개별 패키지 목록 (전용 모듈이 없거나 단순 도구들)
   home.packages = with pkgs; [
+  gcc
+  lua
 # 유틸리티
     jq
       xwayland-satellite

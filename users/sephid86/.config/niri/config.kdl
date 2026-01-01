@@ -17,7 +17,8 @@ environment {
 input {
   keyboard {
     xkb {
-      layout "us"
+      layout "us,kr"
+      options "grp:toggle,korean:ralt_hangul,compose:ralt,ctrl:nocaps"
       // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
     }
     // numlock
@@ -77,14 +78,14 @@ input {
 }
 
 layout {
-  gaps 12
+  // gaps 12
 
   empty-workspace-above-first true
   // struts {
-  //     left 64
-  //     right 64
-  //     top 64
-  //     bottom 64
+  //     left 1
+  //     right 1
+  //   top 10
+  //     bottom 1
   // }
   // When to center a column when changing focus, options are:
   // - "never", default behavior, focusing an off-screen column will keep at the left

@@ -9,7 +9,7 @@
     "modules-center": [ "clock" ],
     "modules-right": ["mpris", "idle_inhibitor", "temperature", "cpu", "memory","network", "bluetooth", "pulseaudio", "backlight", "battery", "battery#bat2", "tray", "custom/notification"],
 "custom/fcitx5": {
-    "exec": "~/imedbuslisten/test.lua",
+    "exec": "/home/sephid86/.config/waybar/scripts/fcitx5-status-lang-json.lua",
     "return-type": "json",
     "format": "{text}",
 "align": 1,

@@ -187,9 +187,6 @@
       vulkan-tools
       libva-utils
   ];
-# environment.systemPackages = with pkgs; [
-#   home-manager
-# ];
 
   system.stateVersion = "25.11"; 
 }

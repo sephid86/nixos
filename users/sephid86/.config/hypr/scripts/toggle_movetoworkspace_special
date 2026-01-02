@@ -1,9 +1,0 @@
-#!/bin/bash
-
-SPECIAL_NAME="${1:-special:magic}"
-
-if [ "$(hyprctl activewindow -j | jq -r '.workspace.name')" != "$SPECIAL_NAME" ]; then
-  hyprctl dispatch movetoworkspace $SPECIAL_NAME
-else
-  hyprctl dispatch movetoworkspace r+0
-fi

@@ -1,0 +1,17 @@
+[[mgr.prepend_keymap]]
+on   = [ "g", "c" ]
+run  = "cd ~/homenix/config"
+desc = "config 로 이동"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "d" ]
+run  = "cd ~/다운로드"
+desc = "Go ~/Downloads"
+
+[[mgr.prepend_keymap]]
+on  = "M"
+run = "plugin mount"
+
+[[mgr.prepend_keymap]]
+on  = "A"
+run = 'shell "~/wodac/wodac.sh $@"'

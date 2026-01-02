@@ -9,7 +9,12 @@ Mod+shift+return hotkey-overlay-title="Open a yazi" { spawn "wezterm" "start" "-
   // Mod+shift+return hotkey-overlay-title="Open a yazi" { 
   //   spawn "sh" "-c" "foot bash -ic 'r; exec bash' & sleep 0.1 && niri msg action consume-or-expel-window-left"
   // }
-  Mod+e hotkey-overlay-title="Open a LazyVim" { spawn "foot" "-a" "foot-float" "sh" "-c" "echo|nvim"; }
+  // Mod+e hotkey-overlay-title="Open a LazyVim" { spawn "foot" "-a" "foot-float" "sh" "-c" "echo|nvim"; }
+
+// 기존 foot 설정을 wezterm 기반의 '무결성' 설정으로 교체
+Mod+E hotkey-overlay-title="Open a LazyVim" { 
+    spawn "sh" "-c" "wezterm start --class wezterm-floating sh -c 'echo | nvim'" 
+}
   // Mod+e hotkey-overlay-title="Open a LazyVim" { spawn-sh "echo -n | foot -a foot-float nvim -"; }
 // Mod+E { spawn "foot -a foot-float nvim -c 'startinsert'" }
 

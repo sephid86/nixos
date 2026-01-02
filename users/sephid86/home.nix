@@ -77,7 +77,7 @@ xdg.configFile = allConfigs;
     };
 
 wezterm.enable = true;
-    foot.enable = true;
+    # foot.enable = true;
     yazi = {
       enable = true;
       enableBashIntegration = false;

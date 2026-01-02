@@ -119,10 +119,10 @@ layout {
   // prefer-no-csd
   focus-ring {
     // Uncomment this line to disable the focus ring.
-    // off
+    off
 
     // How many logical pixels the ring extends out from the windows.
-    width 1
+    // width 0
 
     // Colors can be set in a variety of ways:
     // - CSS named colors: "red"
@@ -131,8 +131,8 @@ layout {
 
     // Color of the ring on the active monitor.
     // active-color "#7fc8ff"
-    active-color "#ffffff"
-    // inactive-color "#45475a"
+    active-color "#b7bdf8"
+    inactive-color "#494d64d9"
 
     // active-gradient from="#80c8ff" to="#c7ff7f" angle=45
     // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
@@ -141,13 +141,10 @@ layout {
   border {
     // The settings are the same as for the focus ring.
     // If you enable the border, you probably want to disable the focus ring.
-    off
-    width 0
-    active-color "#000000"
-    inactive-color "#505050"
-
-    // urgent-color "#9b0000"
-
+    width 1
+    active-color "#b7bdf8"
+    inactive-color "#494d64d9"
+    urgent-color "#ed8796"
     // active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
     // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
   }

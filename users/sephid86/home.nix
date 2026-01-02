@@ -76,6 +76,7 @@ xdg.configFile = allConfigs;
       scripts = with pkgs.mpvScripts; [ mpris uosc ];
     };
 
+wezterm.enable = true;
     foot.enable = true;
     yazi = {
       enable = true;

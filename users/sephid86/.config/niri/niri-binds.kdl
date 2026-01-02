@@ -2,8 +2,9 @@ screenshot-path "~/Screenshots/ss-%y%m%d-%H%M%S.png"
 binds {
   Mod+ctrl+Slash { show-hotkey-overlay; }
 
-  Mod+Return hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
-  Mod+shift+return hotkey-overlay-title="Open a yazi" { spawn "foot" "-a" "foot-floating" "bash" "-ic" "r; exec bash"; }
+  Mod+Return hotkey-overlay-title="Open a Terminal: foot" { spawn "wezterm"; }
+  // Mod+shift+return hotkey-overlay-title="Open a yazi" { spawn "foot" "-a" "foot-floating" "bash" "-ic" "r; exec bash"; }
+Mod+shift+return hotkey-overlay-title="Open a yazi" { spawn "wezterm" "start" "--class" "wezterm-floating" "bash" "-ic" "r; exec bash"; } 
   // Mod+shift+return hotkey-overlay-title="Open a yazi" { spawn-sh "foot -a foot-floating bash -ic r"; }
   // Mod+shift+return hotkey-overlay-title="Open a yazi" { 
   //   spawn "sh" "-c" "foot bash -ic 'r; exec bash' & sleep 0.1 && niri msg action consume-or-expel-window-left"

@@ -37,7 +37,7 @@ match app-id="foot"
 }
 
 window-rule {
-  match app-id="foot-float"
+  match app-id="wezterm-floating"
   open-floating true
 }
 // Open the Firefox picture-in-picture player as floating by default.
@@ -89,3 +89,11 @@ window-rule {
 
   opacity 1.0
 }
+
+// window-rule {
+//     // This regular expression is intentionally made as specific as possible,
+//     // since this is the default config, and we want no false positives.
+//     // You can get away with just app-id="wezterm" if you want.
+//     match app-id=r#"^org\.wezfurlong\.wezterm$"#
+//     default-column-width {}
+// }

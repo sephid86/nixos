@@ -185,7 +185,6 @@
   };
 programs.ssh.askPassword = "${pkgs.kdePackages.ksshaskpass}/sw/bin/ksshaskpass";
   environment.systemPackages = with pkgs; [
-      kdePackages.ksshaskpass
       vulkan-tools
       libva-utils
   ];

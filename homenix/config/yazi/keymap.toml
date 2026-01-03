@@ -9,6 +9,11 @@ run  = "cd ~/다운로드"
 desc = "Go ~/Downloads"
 
 [[mgr.prepend_keymap]]
+on   = [ "g", "n" ]
+run  = "cd /etc/nixos"
+desc = "Go NixOS Config"
+
+[[mgr.prepend_keymap]]
 on  = "M"
 run = "plugin mount"
 

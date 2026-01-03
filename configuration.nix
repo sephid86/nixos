@@ -9,8 +9,8 @@
   imports =
     [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-# ./niri.nix
-      ./fonts.nix
+    ./modules
+# ./niri.niafgasdfsadxxxgsssdfasdgaaasdsagasdgasdgawhatx
     ];
 
 # Time Zone and Hardware Clock Settings
@@ -183,7 +183,9 @@
     enable = true;
     vimAlias = true;
   };
+programs.ssh.askPassword = "${pkgs.kdePackages.ksshaskpass}/sw/bin/ksshaskpass";
   environment.systemPackages = with pkgs; [
+      kdePackages.ksshaskpass
       vulkan-tools
       libva-utils
   ];

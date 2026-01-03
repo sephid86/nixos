@@ -178,6 +178,7 @@ in
     QT_IM_MODULE  = "fcitx";
     XMODIFIERS  = "@im=fcitx";
     SDL_IM_MODULE  = "fcitx";
+
   };
 
   home.shellAliases = {
@@ -222,5 +223,23 @@ in
 # 프롬프트 설정 (PS1)
     PS1='[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]]\$ '
       '';
+  };
+
+services.kdeconnect = {
+  enable = true;
+  indicator = true; # 트레이 아이콘에 KDE Connect 상태를 표시하여 무결성 확인!
+};
+
+  services.syncthing = {
+    enable = true;
+# 인증서와 데이터베이스가 안전하게 보관됩니다.
+    # overrideConfigDir = "/home/sephid86/.syncthing";
+    # overrideDataDir = "/home/sephid86/share";
+# Web GUI 접속 허용
+    extraOptions = [
+    "--config=/home/sephid86/.syncthing"
+    "--data=/home/sephid86/share"
+    "--gui-address=127.0.0.1:8384"
+    ];
   };
 }

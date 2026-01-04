@@ -153,8 +153,10 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
   xdg.portal = {
     enable = true;
     extraPortals = [ 
-      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gnome
     ];
     config.niri = {
       default = [ "gnome" "gtk" ];

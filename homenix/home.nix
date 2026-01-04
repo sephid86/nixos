@@ -147,16 +147,18 @@ home.language.base = "ko_KR.UTF-8";
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
+xdg.mimeApps = {
+  enable = true;
+  defaultApplications = {
+    "image/*" = [ "swayimg.desktop" ];
+  };
+};
   xdg.portal = {
     enable = true;
     # gnome.enable = true;
     # wlr.enable = true;
     # Optional: ensure extra portals are available
     extraPortals = [ 
-      pkgs.xdg-desktop-portal
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-wlr
-      pkgs.xdg-desktop-portal-gnome
       pkgs.xdg-user-dirs
       pkgs.xdg-user-dirs-gtk
       pkgs.xdg-utils

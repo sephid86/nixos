@@ -147,7 +147,22 @@ home.language.base = "ko_KR.UTF-8";
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
-
+  xdg.portal = {
+    enable = true;
+    # gnome.enable = true;
+    # wlr.enable = true;
+    # Optional: ensure extra portals are available
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-user-dirs
+      pkgs.xdg-user-dirs-gtk
+      pkgs.xdg-utils
+    ];
+config.common.default = "*";
+  };
 # 5. 사용자별 개별 패키지 목록 (전용 모듈이 없거나 단순 도구들)
   home.packages = with pkgs; [
     gcc
@@ -183,11 +198,11 @@ home.language.base = "ko_KR.UTF-8";
     XDG_CURRENT_DESKTOP = "GNOME";
     XDG_SESSION_DESKTOP = "GNOME";
 
-    # GLFW_IM_MODULE  = "fcitx";
-    # GTK_IM_MODULE  = "fcitx";
-    # QT_IM_MODULE  = "fcitx";
-    # XMODIFIERS  = "@im=fcitx";
-    # SDL_IM_MODULE  = "fcitx";
+    GLFW_IM_MODULE  = "ibus";
+    GTK_IM_MODULE  = "fcitx";
+    QT_IM_MODULE  = "fcitx";
+    XMODIFIERS  = "@im=fcitx";
+    SDL_IM_MODULE  = "fcitx";
 
   };
 

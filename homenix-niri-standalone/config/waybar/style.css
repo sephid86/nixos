@@ -1,0 +1,225 @@
+* {
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: sans;
+  /*font-family: "D2CodingLigature Nerd Mono";*/
+  font-size: 13px;
+  min-height: 0px;
+}
+
+window#waybar {
+    background: rgba(24, 24, 37, 0.6); /* 매우 투명한 배경 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    color: #cdd6f4;
+    transition: all 0.3s ease;
+}
+
+/* 중앙 모듈 그룹 스타일 */
+/* #window, #custom-fcitx5, #clock { */
+#window, #custom-fcitx5, #clock {
+    background: rgba(49, 50, 68, 0.5); /* 약간 더 어두운 캡슐 배경 */
+    margin: 5px 2px;
+    padding: 0 12px;
+    border-radius: 10px;
+}
+
+#custom-fcitx5.kor {
+    background-color: #fab387; /* 우리가 원했던 그 오렌지색 배경 */
+    color: #45475a;            /* 글자는 선명하게 검정색 */
+    font-weight: bold;
+}
+
+#waybar.empty #window {
+  background-color: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+#waybar.empty #custom-fcitx5 {
+  background-color: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+/* 워크스페이스: niri 스타일 */
+#workspaces button {
+    padding: 0 5px;
+    color: #f5e0dc;
+}
+
+#workspaces button.focused {
+    color: #fab387;
+    border-bottom: 2px solid #fab387;
+}
+#workspaces {
+}
+
+#window {
+  margin: 2;
+  padding-left: 8;
+  padding-right: 8;
+  background-color: rgba(0,0,0,0.3);
+  font-size:14px;
+  font-weight: bold;
+}
+
+button {
+  /* Use box-shadow instead of border so the text isn't offset */
+  box-shadow: inset 0 -3px transparent;
+  /* Avoid rounded borders under each button name */
+  border: none;
+  border-radius: 0;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {
+  background: inherit;
+  border-top: 2px solid #c9545d;
+}
+
+#workspaces button {
+  padding: 0 4px;
+  /*    background-color: rgba(0,0,0,0.3); */
+}
+
+#workspaces button:hover {
+}
+
+#workspaces button.focused {
+  /*    box-shadow: inset 0 -2px #c9545d; */
+  background-color: rgba(0,0,0,0.3);
+  color:#c9545d;
+  border-top: 2px solid #c9545d;
+}
+
+#workspaces button.active {
+  /*    box-shadow: inset 0 -2px #c9545d; */
+  background-color: rgba(0,0,0,0.3);
+  color:#c9545d;
+  border-top: 2px solid #c9545d;
+}
+
+#workspaces button.urgent {
+  background-color: #eb4d4b;
+}
+
+#mode {
+  background-color: #64727D;
+  border-bottom: 3px solid #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd {
+  margin: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  background-color: rgba(0,0,0,0.3);
+
+    border-radius: 10px;
+}
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+  margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+  margin-right: 0;
+}
+
+#clock {
+  font-size:14px;
+  font-weight: bold;
+}
+
+#battery icon {
+  color: red;
+}
+
+#battery.charging, #battery.plugged {
+  color: #ffffff;
+  background-color: #26A65B;
+}
+
+@keyframes blink {
+  to {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
+
+#battery.warning:not(.charging) {
+  background-color: #f53c3c;
+  color: #ffffff;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#battery.critical:not(.charging) {
+  background-color: #f53c3c;
+  color: #ffffff;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+label:focus {
+  background-color: #000000;
+}
+
+#network.disconnected {
+  background-color: #f53c3c;
+}
+
+#temperature.critical {
+  background-color: #eb4d4b;
+}
+
+#idle_inhibitor.activated {
+  background-color: #ecf0f1;
+  color: #2d3436;
+}
+/* #tray.icon { */
+/* #tray > .passive { */
+  /* -gtk-icon-effect: none; */
+/* color: unset; */
+/* } */
+/**/
+/* #tray > .needs-attention { */
+/*   -gtk-icon-effect: highlight; */
+/*   background-color: #eb4d4b; */
+/* color: unset; */
+/* } */
+/**/
+/*
+
+window#waybar.solo {
+background-color: #FFFFFF;
+}
+
+window#waybar.termite {
+background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+background-color: #000000;
+border: none;
+}
+ */

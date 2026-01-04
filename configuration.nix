@@ -185,7 +185,6 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
     enable = true;
     vimAlias = true;
   };
-programs.ssh.askPassword = "${pkgs.kdePackages.ksshaskpass}/sw/bin/ksshaskpass";
   environment.systemPackages = with pkgs; [
       vulkan-tools
       libva-utils

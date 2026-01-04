@@ -1,0 +1,44 @@
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+-- vim.cmd([[cnoreabbrev ws w !sudo -A tee % > /dev/null]])
+-- vim.cmd([[cnoreabbrev ws w !SUDO_ASKPASS=/run/current-system/sw/bin/ksshaskpass sudo -A tee % > /dev/null]])
+-- vim.cmd([[cnoreabbrev ws w !pkexec /run/current-system/sw/bin/tee %]])
+-- vim.cmd([[cnoreabbrev w SudaWrite]])
+
+-- ~/homenix/config/nvim/lua/config/keymaps.lua
+-- aa
+-- [무결성 지능형 엔진]
+-- mode에 따라 저장만 할지(w), 저장 후 종료할지(wq) 결정합니다.
+-- local function smart_write(mode)
+--   local file = vim.fn.expand("%")
+--   -- 1. 파일이 쓸 수 있는 상태인지 체크
+--   if vim.fn.filewritable(file) == 1 then
+--     vim.cmd(mode == "wq" and "wq" or "w")
+--   else
+--     -- 2. 권한이 없으면 SudaWrite 호출
+--     vim.cmd("SudaWrite")
+--     -- 3. wq 모드였다면 저장 성공 후 종료 시도
+--     if mode == "wq" then
+--       vim.cmd("q")
+--     end
+--   end
+-- end
+--
+-- -- 전역 함수 등록
+-- _G.SmartWrite = smart_write
+--
+-- -- [약어 설정] :w 와 :wq 모두에 마법을 겁니다.
+-- vim.keymap.set("ca", "w", function()
+--   if vim.fn.getcmdtype() == ":" and vim.fn.getcmdline() == "w" then
+--     return "lua SmartWrite('w')"
+--   end
+--   return "w"
+-- end, { expr = true })
+--
+-- vim.keymap.set("ca", "wq", function()
+--   if vim.fn.getcmdtype() == ":" and vim.fn.getcmdline() == "wq" then
+--     return "lua SmartWrite('wq')"
+--   end
+--   return "wq"
+-- end, { expr = true })

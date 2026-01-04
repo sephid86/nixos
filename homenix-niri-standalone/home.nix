@@ -23,35 +23,36 @@
 
 { pkgs, lib, config, catppuccin, ... }:
 
-let
-userName = "sephid86";
-
-# 2. 파일 목록을 읽기 위한 상대 경로
-configDir = ./config;
-
-# 3. 전체 자동화 로직 (mkOutOfStoreSymlink 적용)
-allConfigs = builtins.listToAttrs (map (name: {
-      inherit name;
-      value = { 
-# .config 내부의 모든 파일을 /etc/nixos 주소로 직접 연결합니다.
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/homenix/config/${name}"; 
-      };
-      }) (builtins.filter (name: 
-          name != "dconf" && 
-          name != "fontconfig" &&
-          name != "swaync"
-          ) (builtins.attrNames (builtins.readDir configDir))));
-in
+# let
+# # 1. 아웃 링크를 걸 실제 하드디스크 상의 절대 경로 변수
+# userPath = "/home/sephid86/homenix";
+#
+# # 2. 파일 목록을 읽기 위한 상대 경로
+# configDir = ./config;
+#
+# # 3. 전체 자동화 로직 (mkOutOfStoreSymlink 적용)
+# allConfigs = builtins.listToAttrs (map (name: {
+#       inherit name;
+#       value = { 
+# # .config 내부의 모든 파일을 /etc/nixos 주소로 직접 연결합니다.
+#       source = config.lib.file.mkOutOfStoreSymlink "${userPath}/config/${name}"; 
+#       };
+#       }) (builtins.filter (name: 
+#           name != "dconf" && 
+#           name != "fontconfig" &&
+#           name != "swaync"
+#           ) (builtins.attrNames (builtins.readDir configDir))));
+# in
 
 {
   imports = [
-    catppuccin.homeModules.catppuccin # 독립형에서는 homeModules가 정석
+    ./modules # modules/default.nix를 자동으로 찾아 들어갑니다! ㅋㅋㅋㅋ
   ];
-  home.username = userName;
-  home.homeDirectory = "/home/${userName}";
+  home.username = "sephid86";
+  home.homeDirectory = "/home/sephid86";
   home.stateVersion = "25.11";
   home.enableNixpkgsReleaseCheck = false;
-  xdg.configFile = allConfigs;
+  # xdg.configFile = allConfigs;
 # xdg.configFile.".".source = ./.config;
 # nixpkgs.config.allowUnfree = true;
 
@@ -64,7 +65,8 @@ home.language.base = "ko_KR.UTF-8";
       addons = with pkgs; [ fcitx5-hangul qt6Packages.fcitx5-configtool fcitx5-gtk ];
     };
   };
-
+  catppuccin.flavor = "macchiato";
+  catppuccin.enable = true;
   systemd.user.services.hyprpolkitagent = {
     Unit = {
       Description = "Hyprland Polkit Agent";
@@ -85,15 +87,6 @@ home.language.base = "ko_KR.UTF-8";
   programs = {
     home-manager.enable = true;
 
-# 크롬: 키링 잠금 해제 팝업 방지 및 Wayland 최적화
-    google-chrome = {
-      enable = true;
-      commandLineArgs = [
-        "--password-store=basic"
-          "--enable-features=vulkan"
-          "--use-angle=vulkan"
-      ];
-    };
 
 # 멀티미디어 및 도구 (enable 권장 항목들)
     mpv = {
@@ -131,14 +124,17 @@ home.language.base = "ko_KR.UTF-8";
 # 4. GTK 및 UI 테마 (Nix 스타일로 관리)
   gtk = {
     enable = true;
-    theme = {
-      name = "Adwaita";
-      package = pkgs.gnome-themes-extra;
-    };
-    iconTheme = {
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme;
-    };
+    # theme = {
+# name = lib.mkForce "Adwaita";
+      # name = "Adwaita";
+      # package = pkgs.gnome-themes-extra;
+    # };
+    # iconTheme = {
+      # name = "Papirus"; # 혹은 사용자님이 원하는 컬러풀한 테마
+      # package = pkgs.papirus-icon-theme;
+      # # name = "Adwaita";
+      # # package = pkgs.adwaita-icon-theme;
+    # };
     cursorTheme = {
       name = "Vimix-white-cursors";
       package = pkgs.vimix-cursors;
@@ -182,13 +178,11 @@ home.language.base = "ko_KR.UTF-8";
 
     XDG_CURRENT_DESKTOP = "GNOME";
     XDG_SESSION_DESKTOP = "GNOME";
-
     # GLFW_IM_MODULE  = "fcitx";
     # GTK_IM_MODULE  = "fcitx";
     # QT_IM_MODULE  = "fcitx";
     # XMODIFIERS  = "@im=fcitx";
     # SDL_IM_MODULE  = "fcitx";
-
   };
 
   home.shellAliases = {

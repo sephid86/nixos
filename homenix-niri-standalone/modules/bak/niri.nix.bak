@@ -1,0 +1,53 @@
+{
+  programs.niri = {
+    enable = true;
+    # KDL include 대신 Nix의 imports나 파일 병합 기능을 사용하게 됩니다.
+    
+    settings = {
+      environment = {
+        "XDG_CURRENT_DESKTOP" = "GNOME";
+        "XDG_SESSION_DESKTOP" = "GNOME";
+        "GLFW_IM_MODULE" = "fcitx";
+        "GTK_IM_MODULE" = "fcitx";
+        "QT_IM_MODULE" = "fcitx";
+        "XMODIFIERS" = "@im=fcitx";
+        "SDL_IM_MODULE" = "fcitx";
+      };
+
+      input = {
+        keyboard.xkb.options = "grp:toggle,korean:ralt_hangul,compose:ralt,ctrl:nocaps";
+        touchpad = {
+          tap = true;
+          natural-scroll = true;
+        };
+      };
+
+      layout = {
+        focus-ring.enable = false;
+        border = {
+          enable = true;
+          width = 1;
+        };
+        struts.top = -8;
+        preset-column-widths = [
+          { proportion = 1.0 / 3.0; }
+          { proportion = 1.0 / 2.0; }
+          { proportion = 2.0 / 3.0; }
+        ];
+        default-column-width.proportion = 0.5;
+      };
+
+      spawn-at-startup = [
+        { command = [ "hyprpolkit" ]; }
+        { command = [ "hypridle" ]; }
+        { command = [ "hyprpaper" ]; }
+        { command = [ "eww" "daemon" ]; }
+      ];
+
+      cursor = {
+        theme = "Vimix-white-cursors";
+        size = 32;
+      };
+    };
+  };
+}

@@ -171,7 +171,7 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol",
-        "on-click-right": "foot -a pw-top pw-top"
+        "on-click-right": "wezterm start --class pw-top -e pw-top"
     },
   "custom/notification": {
     "tooltip": true,

@@ -61,15 +61,17 @@
   };
 
 # Input Method (Fcitx5 for Hangul)
-  i18n.defaultLocale = "ko_KR.UTF-8";
-  i18n.inputMethod = {
-    type = "fcitx5";
-    enable = true;
-    fcitx5 = {
-      waylandFrontend = true;
-      addons = with pkgs; [ fcitx5-hangul qt6Packages.fcitx5-configtool fcitx5-gtk ];
-    };
-  };
+  # i18n.defaultLocale = "ko_KR.UTF-8";
+i18n.defaultLocale = "en_US.UTF-8";
+i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 폰트/데이터를 미리 생성해둬야 함
+  # i18n.inputMethod = {
+  #   type = "fcitx5";
+  #   enable = true;
+  #   fcitx5 = {
+  #     waylandFrontend = true;
+  #     addons = with pkgs; [ fcitx5-hangul qt6Packages.fcitx5-configtool fcitx5-gtk ];
+  #   };
+  # };
   # nixpkgs.hostPlatform = "x86_64-linux";
   nixpkgs = {
 # # 1. 라이젠 5600(Zen 3) CPU 밀착 최적화

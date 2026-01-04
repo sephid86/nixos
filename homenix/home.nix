@@ -55,6 +55,17 @@ in
   xdg.configFile = allConfigs;
 # xdg.configFile.".".source = ./.config;
 # nixpkgs.config.allowUnfree = true;
+
+home.language.base = "ko_KR.UTF-8";
+  i18n.inputMethod = {
+    type = "fcitx5";
+    enable = true;
+    fcitx5 = {
+      waylandFrontend = true;
+      addons = with pkgs; [ fcitx5-hangul qt6Packages.fcitx5-configtool fcitx5-gtk ];
+    };
+  };
+
   systemd.user.services.hyprpolkitagent = {
     Unit = {
       Description = "Hyprland Polkit Agent";
@@ -173,11 +184,11 @@ in
     XDG_CURRENT_DESKTOP = "GNOME";
     XDG_SESSION_DESKTOP = "GNOME";
 
-    GLFW_IM_MODULE  = "fcitx";
-    GTK_IM_MODULE  = "fcitx";
-    QT_IM_MODULE  = "fcitx";
-    XMODIFIERS  = "@im=fcitx";
-    SDL_IM_MODULE  = "fcitx";
+    # GLFW_IM_MODULE  = "fcitx";
+    # GTK_IM_MODULE  = "fcitx";
+    # QT_IM_MODULE  = "fcitx";
+    # XMODIFIERS  = "@im=fcitx";
+    # SDL_IM_MODULE  = "fcitx";
 
   };
 

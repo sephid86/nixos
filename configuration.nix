@@ -149,7 +149,13 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
     pulse.enable = true;
     jack.enable = true;
   };
-
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin # 압축 파일 관리
+      thunar-volman         # USB/외부 드라이브 관리
+    ];
+  };
   xdg.portal = {
     enable = true;
     extraPortals = [ 

@@ -1,0 +1,17 @@
+# [opener]
+# # 내가 선호하는 이미지 뷰어 직접 지명
+# view_img = [
+#     { run = 'swayimg "$@"', block = false, for = "unix" }
+# ]
+# # 시스템 설정을 따르는 기본 오프너 (XDG)
+# open_xdg = [
+#     { run = 'xdg-open "$@"', desc = "Open with System Default" }
+# ]
+#
+# [open]
+# rules = [
+#     # 이미지는 내가 정한 swayimg로 0.1ms 만에 타격!
+#     { mime = "image/*", use = "view_img" },
+#     # 그 외 나머지는 모두 시스템(XDG)에게 토스!
+#     { name = "*", use = "open_xdg" }
+# ]

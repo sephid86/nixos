@@ -52,10 +52,11 @@ in
   home.stateVersion = "25.11";
   home.enableNixpkgsReleaseCheck = false;
   xdg.configFile = allConfigs;
+
 # xdg.configFile.".".source = ./.config;
 # nixpkgs.config.allowUnfree = true;
 
-home.language.base = "ko_KR.UTF-8";
+  home.language.base = "ko_KR.UTF-8";
   i18n.inputMethod = {
     type = "fcitx5";
     enable = true;
@@ -81,6 +82,7 @@ home.language.base = "ko_KR.UTF-8";
       WantedBy = [ "graphical-session.target" ];
     };
   };
+
 # 2. 프로그램 설정 (enable 방식 - 설정 및 서비스 자동 관리)
   programs = {
     home-manager.enable = true;
@@ -94,7 +96,6 @@ home.language.base = "ko_KR.UTF-8";
           "--use-angle=vulkan"
       ];
     };
-
 # 멀티미디어 및 도구 (enable 권장 항목들)
     mpv = {
       enable = true;
@@ -127,17 +128,24 @@ home.language.base = "ko_KR.UTF-8";
     swaync.enable = true;
     easyeffects.enable = true;
   };
-
+# catppuccin.gtk.enable = true; 
 # 4. GTK 및 UI 테마 (Nix 스타일로 관리)
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita";
-      package = pkgs.gnome-themes-extra;
+      name = "catppuccin-macchiato-lavender-standard";
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "lavender" ];
+        size = "standard";
+        variant = "macchiato";
+      };
     };
     iconTheme = {
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme;
+      name = "Papirus-Dark";
+      package = pkgs.catppuccin-papirus-folders.override {
+        flavor = "macchiato";
+        accent = "lavender";
+      };
     };
     cursorTheme = {
       name = "Vimix-white-cursors";
@@ -147,126 +155,147 @@ home.language.base = "ko_KR.UTF-8";
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
-xdg.mimeApps = {
-  enable = true;
-  defaultApplications = {
-    "image/*" = [ "swayimg.desktop" ];
+
+# 특정 경로의 desktop 파일을 직접 읽어서 Nix 리스트로 변환합니다.
+# grep '^MimeType=' /nix/store/haqaax4ajwlzwj173n1jirp5sbk9nm9v-swayimg-4.6/share/applications/swayimg.desktop | \
+# sed 's/MimeType=//; s/;/ /g' | \
+# awk '{for(i=1;i<=NF;i++) print "\"" $i "\" = [ \"swayimg.desktop\" ];"}'
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/avif" = [ "swayimg.desktop" ];
+      "image/bmp" = [ "swayimg.desktop" ];
+      "image/gif" = [ "swayimg.desktop" ];
+      "image/heif" = [ "swayimg.desktop" ];
+      "image/jpeg" = [ "swayimg.desktop" ];
+      "image/jpg" = [ "swayimg.desktop" ];
+      "image/jxl" = [ "swayimg.desktop" ];
+      "image/pbm" = [ "swayimg.desktop" ];
+      "image/pjpeg" = [ "swayimg.desktop" ];
+      "image/png" = [ "swayimg.desktop" ];
+      "image/svg+xml" = [ "swayimg.desktop" ];
+      "image/tiff" = [ "swayimg.desktop" ];
+      "image/webp" = [ "swayimg.desktop" ];
+      "image/x-bmp" = [ "swayimg.desktop" ];
+      "image/x-exr" = [ "swayimg.desktop" ];
+      "image/x-png" = [ "swayimg.desktop" ];
+      "image/x-portable-anymap" = [ "swayimg.desktop" ];
+      "image/x-portable-bitmap" = [ "swayimg.desktop" ];
+      "image/x-portable-graymap" = [ "swayimg.desktop" ];
+      "image/x-portable-pixmap" = [ "swayimg.desktop" ];
+      "image/x-targa" = [ "swayimg.desktop" ];
+      "image/x-tga" = [ "swayimg.desktop" ];
+    };
+  };
+xdg.portal = {
+  config.common.default = "*";
+  config.niri = {
+    default = [ "gnome" "wlr" ];
   };
 };
-  xdg.portal = {
-    enable = true;
-    # gnome.enable = true;
-    # wlr.enable = true;
-    # Optional: ensure extra portals are available
-    extraPortals = [ 
-      pkgs.xdg-user-dirs
-      pkgs.xdg-user-dirs-gtk
-      pkgs.xdg-utils
-    ];
-config.common.default = "*";
-  };
 # 5. 사용자별 개별 패키지 목록 (전용 모듈이 없거나 단순 도구들)
-  home.packages = with pkgs; [
-    gcc
-      lua
+home.packages = with pkgs; [
+  gcc
+  lua
 # 유틸리티
-      jq
-      xwayland-satellite
-      wl-clipboard
-      hyprpolkitagent
-      libnotify
-      playerctl
-      grim
-      slurp
-      swayimg
-      pavucontrol
-      eww
-      ffmpegthumbnailer
-      imagemagick
-      gimp
-      libreoffice
-      pciutils
-      (discord.override {
-       commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
-       })
-  ];
+  jq
+  xwayland-satellite
+  gnome-themes-extra
+  wl-clipboard
+  hyprpolkitagent
+  libnotify
+  playerctl
+  grim
+  slurp
+  swayimg
+  pavucontrol
+  eww
+  ffmpegthumbnailer
+  imagemagick
+  gimp
+  libreoffice
+  pciutils
+  (discord.override {
+   commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
+   })
+];
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    NIXOS_OZONE_WL = "1";
-    SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
-    QT_QPA_PLATFORM = "wayland";
+home.sessionVariables = {
+  EDITOR = "nvim";
+  NIXOS_OZONE_WL = "1";
+  SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+  QT_QPA_PLATFORM = "wayland";
 
-    XDG_CURRENT_DESKTOP = "GNOME";
-    XDG_SESSION_DESKTOP = "GNOME";
+  XDG_CURRENT_DESKTOP = "GNOME";
+  XDG_SESSION_DESKTOP = "GNOME";
 
-    GLFW_IM_MODULE  = "ibus";
-    GTK_IM_MODULE  = "fcitx";
-    QT_IM_MODULE  = "fcitx";
-    XMODIFIERS  = "@im=fcitx";
-    SDL_IM_MODULE  = "fcitx";
+  GLFW_IM_MODULE  = "ibus";
+  GTK_IM_MODULE  = "fcitx";
+  QT_IM_MODULE  = "fcitx";
+  XMODIFIERS  = "@im=fcitx";
+  SDL_IM_MODULE  = "fcitx";
 
-  };
+};
 
-  home.shellAliases = {
+home.shellAliases = {
 # git add를 포함하여 수정 사항을 즉시 반영하고 빌드
-    nswitch = "cd /etc/nixos && sudo git add . && sudo nixos-rebuild switch --flake .";
+  nswitch = "cd /etc/nixos && sudo git add . && sudo nixos-rebuild switch --flake .";
 # 빌드 성공 후 찌꺼기까지 싹 청소 (가장 깔끔한 상태 유지)
-    nconfirm = "cd /etc/nixos && sudo git add . && sudo nixos-rebuild switch --flake . && sudo nix-collect-garbage -d";
-    nconf = "sudoedit /etc/nixos/configuration.nix";
+  nconfirm = "cd /etc/nixos && sudo git add . && sudo nixos-rebuild switch --flake . && sudo nix-collect-garbage -d";
+  nconf = "sudoedit /etc/nixos/configuration.nix";
 # 2. 사용자 설정 업데이트 (자주 실행: 새로운 패키지 설치 등)
 # [수정] 이제 Standalone 방식의 명령어로 대체합니다.
-    hswitch = "cd ~/homenix && git add . && home-manager switch --flake .#sephid86";
+  hswitch = "cd ~/homenix && git add . && home-manager switch -b backup --flake .#sephid86";
 
-    vi = "nvim";
-    sudo = "sudo "; # 뒤에 공백이 있어야 별칭 뒤의 명령어도 별칭 인식 가능
-      ls = "ls --color=auto";
+  vi = "nvim";
+  sudo = "sudo "; # 뒤에 공백이 있어야 별칭 뒤의 명령어도 별칭 인식 가능
+    ls = "ls --color=auto";
 
 # 백업 및 SSH 관련
-    sshcon = "ssh 접속아이디@접속주소";
-    bakweb = "scp -r 접속아이디@접속주소:~/www ~/; tar -zcvf ~/$(date +%y%m%d)-bakweb.tgz ~/웹경로; rm -rf ~/웹경로";
-    bakdb = "ssh 접속아이디@접속주소 mysqldump -u디비아이디 > $(date +%y%m%d).sql; tar -zcvf $(date +%y%m%d)-db.tgz $(date +%y%m%d).sql; rm $(date +%y%m%d).sql";
-    bakall = "bakweb; bakdb";
+  sshcon = "ssh 접속아이디@접속주소";
+  bakweb = "scp -r 접속아이디@접속주소:~/www ~/; tar -zcvf ~/$(date +%y%m%d)-bakweb.tgz ~/웹경로; rm -rf ~/웹경로";
+  bakdb = "ssh 접속아이디@접속주소 mysqldump -u디비아이디 > $(date +%y%m%d).sql; tar -zcvf $(date +%y%m%d)-db.tgz $(date +%y%m%d).sql; rm $(date +%y%m%d).sql";
+  bakall = "bakweb; bakdb";
 
 # sway = "env XDG_CURRENT_DESKTOP=sway GTK_IM_MODULE=kime QT_IM_MODULE=kime XMODIFIERS=@im=kime sway";
-  };
+};
 
-  programs.bash = {
-    enable = true;
-    initExtra = ''
+programs.bash = {
+  enable = true;
+  initExtra = ''
 # Yazi 종료 시 디렉토리 유지 함수 (r)
-      function r() {
+    function r() {
 # --- 추가된 부분: 실행 시 무조건 설정 폴더로 이동 ---
 # builtin cd -- "/etc/nixos/users/sephid86/.config" 2>/dev/null
 # -----------------------------------------------
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-          yazi "$@" --cwd-file="$tmp"
-          if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-            builtin cd -- "$cwd"
-              fi
-              rm -f -- "$tmp"
-      }
+      local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+          builtin cd -- "$cwd"
+            fi
+            rm -f -- "$tmp"
+    }
 
 # 프롬프트 설정 (PS1)
-    PS1='[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]]\$ '
-      '';
-  };
+  PS1='[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]]\$ '
+    '';
+};
 
 services.kdeconnect = {
   enable = true;
   indicator = true; # 트레이 아이콘에 KDE Connect 상태를 표시하여 무결성 확인!
 };
 
-  services.syncthing = {
-    enable = true;
+services.syncthing = {
+  enable = true;
 # 인증서와 데이터베이스가 안전하게 보관됩니다.
-    # overrideConfigDir = "/home/sephid86/.syncthing";
-    # overrideDataDir = "/home/sephid86/share";
+# overrideConfigDir = "/home/sephid86/.syncthing";
+# overrideDataDir = "/home/sephid86/share";
 # Web GUI 접속 허용
-    extraOptions = [
+  extraOptions = [
     "--config=/home/sephid86/.syncthing"
-    "--data=/home/sephid86/share"
-    "--gui-address=127.0.0.1:8384"
-    ];
-  };
+      "--data=/home/sephid86/share"
+      "--gui-address=127.0.0.1:8384"
+  ];
+};
 }

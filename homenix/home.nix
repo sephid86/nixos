@@ -37,8 +37,8 @@ allConfigs = builtins.listToAttrs (map (name: {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/homenix/config/${name}"; 
       };
       }) (builtins.filter (name: 
-          name != "dconf" && 
-          name != "fontconfig" &&
+          # name != "dconf" && 
+          # name != "fontconfig" &&
           name != "swaync"
           ) (builtins.attrNames (builtins.readDir configDir))));
 in
@@ -52,7 +52,6 @@ in
   home.stateVersion = "25.11";
   home.enableNixpkgsReleaseCheck = false;
   xdg.configFile = allConfigs;
-
 # xdg.configFile.".".source = ./.config;
 # nixpkgs.config.allowUnfree = true;
 
@@ -65,7 +64,14 @@ in
       addons = with pkgs; [ fcitx5-hangul qt6Packages.fcitx5-configtool fcitx5-gtk ];
     };
   };
-
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      sansSerif = [ "Pretendard" ];
+      serif = [ "Noto Serif CJK KR" ];
+      monospace = [ "D2CodingLigature Nerd Font" ];
+    };
+  };
   systemd.user.services.hyprpolkitagent = {
     Unit = {
       Description = "Hyprland Polkit Agent";
@@ -87,6 +93,10 @@ in
   programs = {
     home-manager.enable = true;
 
+  neovim = {
+    enable = true;
+    vimAlias = true;
+  };
 # 크롬: 키링 잠금 해제 팝업 방지 및 Wayland 최적화
     google-chrome = {
       enable = true;
@@ -160,39 +170,43 @@ in
 # grep '^MimeType=' /nix/store/haqaax4ajwlzwj173n1jirp5sbk9nm9v-swayimg-4.6/share/applications/swayimg.desktop | \
 # sed 's/MimeType=//; s/;/ /g' | \
 # awk '{for(i=1;i<=NF;i++) print "\"" $i "\" = [ \"swayimg.desktop\" ];"}'
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "image/avif" = [ "swayimg.desktop" ];
-      "image/bmp" = [ "swayimg.desktop" ];
-      "image/gif" = [ "swayimg.desktop" ];
-      "image/heif" = [ "swayimg.desktop" ];
-      "image/jpeg" = [ "swayimg.desktop" ];
-      "image/jpg" = [ "swayimg.desktop" ];
-      "image/jxl" = [ "swayimg.desktop" ];
-      "image/pbm" = [ "swayimg.desktop" ];
-      "image/pjpeg" = [ "swayimg.desktop" ];
-      "image/png" = [ "swayimg.desktop" ];
-      "image/svg+xml" = [ "swayimg.desktop" ];
-      "image/tiff" = [ "swayimg.desktop" ];
-      "image/webp" = [ "swayimg.desktop" ];
-      "image/x-bmp" = [ "swayimg.desktop" ];
-      "image/x-exr" = [ "swayimg.desktop" ];
-      "image/x-png" = [ "swayimg.desktop" ];
-      "image/x-portable-anymap" = [ "swayimg.desktop" ];
-      "image/x-portable-bitmap" = [ "swayimg.desktop" ];
-      "image/x-portable-graymap" = [ "swayimg.desktop" ];
-      "image/x-portable-pixmap" = [ "swayimg.desktop" ];
-      "image/x-targa" = [ "swayimg.desktop" ];
-      "image/x-tga" = [ "swayimg.desktop" ];
-    };
-  };
+  # xdg.mimeApps = {
+  #   enable = true;
+  #   defaultApplications = {
+  #     "image/avif" = [ "swayimg.desktop" ];
+  #     "image/bmp" = [ "swayimg.desktop" ];
+  #     "image/gif" = [ "swayimg.desktop" ];
+  #     "image/heif" = [ "swayimg.desktop" ];
+  #     "image/jpeg" = [ "swayimg.desktop" ];
+  #     "image/jpg" = [ "swayimg.desktop" ];
+  #     "image/jxl" = [ "swayimg.desktop" ];
+  #     "image/pbm" = [ "swayimg.desktop" ];
+  #     "image/pjpeg" = [ "swayimg.desktop" ];
+  #     "image/png" = [ "swayimg.desktop" ];
+  #     "image/svg+xml" = [ "swayimg.desktop" ];
+  #     "image/tiff" = [ "swayimg.desktop" ];
+  #     "image/webp" = [ "swayimg.desktop" ];
+  #     "image/x-bmp" = [ "swayimg.desktop" ];
+  #     "image/x-exr" = [ "swayimg.desktop" ];
+  #     "image/x-png" = [ "swayimg.desktop" ];
+  #     "image/x-portable-anymap" = [ "swayimg.desktop" ];
+  #     "image/x-portable-bitmap" = [ "swayimg.desktop" ];
+  #     "image/x-portable-graymap" = [ "swayimg.desktop" ];
+  #     "image/x-portable-pixmap" = [ "swayimg.desktop" ];
+  #     "image/x-targa" = [ "swayimg.desktop" ];
+  #     "image/x-tga" = [ "swayimg.desktop" ];
+  #   };
+  # };
 xdg.portal = {
   config.common.default = "*";
   config.niri = {
-    default = [ "gnome" "wlr" ];
+    default = [ "gnome" "gtk" ];
   };
 };
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true; 
+  };
 # 5. 사용자별 개별 패키지 목록 (전용 모듈이 없거나 단순 도구들)
 home.packages = with pkgs; [
   gcc
@@ -215,6 +229,17 @@ home.packages = with pkgs; [
   gimp
   libreoffice
   pciutils
+  xdg-utils 
+  file
+  glib
+  shared-mime-info
+      pretendard
+        noto-fonts-cjk-serif
+        noto-fonts-color-emoji
+        d2coding
+        nerd-fonts.d2coding
+        nerd-fonts.symbols-only
+        font-awesome
   (discord.override {
    commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
    })

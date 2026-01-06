@@ -156,21 +156,6 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
       thunar-volman         # USB/외부 드라이브 관리
     ];
   };
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ 
-      pkgs.xdg-desktop-portal
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-wlr
-      pkgs.xdg-desktop-portal-gnome
-    ];
-    config.niri = {
-      default = [ "gnome" "gtk" ];
-      "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
-      "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
-    };
-  };
-
 
   services.xserver.enable = false;
   services.dbus.enable = true;
@@ -196,6 +181,9 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
   environment.systemPackages = with pkgs; [
       vulkan-tools
       libva-utils
+  # xdg-utils 
+  # glib
+  # shared-mime-info
   ];
 
   system.stateVersion = "25.11"; 

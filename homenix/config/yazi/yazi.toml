@@ -1,3 +1,4 @@
+# 아래 내용들 테스트용이라 실제 비정상 동작함. 실행 금지.
 # [opener]
 # # 내가 선호하는 이미지 뷰어 직접 지명
 # view_img = [
@@ -5,7 +6,7 @@
 # ]
 # # 시스템 설정을 따르는 기본 오프너 (XDG)
 # open_xdg = [
-#     { run = 'xdg-open "$@"', desc = "Open with System Default" }
+    # { run = 'xdg-open "$@"', desc = "Open with System Default" }
 # ]
 #
 # [open]

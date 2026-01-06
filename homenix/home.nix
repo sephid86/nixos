@@ -250,11 +250,14 @@ in
     enable = true;
     extraOptions = [
       "--config=/home/${userName}/.syncthing"
-        "--data=/home/${userName}/share"
+        "--data=/home/${userName}/.syncthingdb"
         "--gui-address=127.0.0.1:8384"
     ];
   };
-
+programs.direnv = {
+  enable = true;
+  nix-direnv.enable = true;
+};
   home.packages = with pkgs; [
     gcc
       lua

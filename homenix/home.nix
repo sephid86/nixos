@@ -193,9 +193,8 @@ in
 #   };
 # };
   xdg.portal = {
-    config.common.default = "*";
     config.niri = {
-      default = [ "gnome" "gtk" ];
+      default = [ "gnome" "gtk" "wlr" ];
     };
   };
 xdg.userDirs = {
@@ -246,8 +245,8 @@ home.sessionVariables = {
   SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
   QT_QPA_PLATFORM = "wayland";
 
-  XDG_CURRENT_DESKTOP = "GNOME";
-  XDG_SESSION_DESKTOP = "GNOME";
+  XDG_CURRENT_DESKTOP = "niri";
+  XDG_SESSION_DESKTOP = "niri";
 
   GLFW_IM_MODULE  = "ibus";
   GTK_IM_MODULE  = "fcitx";

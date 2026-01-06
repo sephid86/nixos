@@ -4,8 +4,8 @@ include "niri-window-rule.kdl"
 environment {
   // QT_QPA_PLATFORM "wayland"
   // DISPLAY null
-  XDG_CURRENT_DESKTOP "GNOME"
-  XDG_SESSION_DESKTOP "GNOME"
+  XDG_CURRENT_DESKTOP "niri"
+  XDG_SESSION_DESKTOP "niri"
 
   GLFW_IM_MODULE "fcitx"
   GTK_IM_MODULE "fcitx"
@@ -78,7 +78,7 @@ input {
 }
 
 layout {
-  // gaps 12
+  gaps 8
 
   empty-workspace-above-first true
   // struts {
@@ -167,7 +167,7 @@ layout {
   struts {
     // left 64
     // right 64
-    top -8
+    // top -8
     // bottom 10
   }
 }

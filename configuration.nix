@@ -178,6 +178,19 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
     enable = true;
     vimAlias = true;
   };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gnome 
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.niri = {
+      default = [ "gnome" "gtk" "wlr" ];
+    };
+  };
+
   environment.systemPackages = with pkgs; [
       vulkan-tools
       libva-utils

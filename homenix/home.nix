@@ -1,9 +1,8 @@
 # { pkgs, ... }:
-# 1. 다른 배포판에서 nix home-manager 이용할때는
-#   home.nix 와 config 가 같은 경로에 있어야함.
-# 2. config 내에 있는 파일들은 
-#   ~/.config 에서 수정하지 말고 config 에서 수정할것
-# 3. ~/.config/nix/nix.conf 에 아래 필수
+# -----
+# 1. home.nix 와 config 가 같은 경로에 있어야함.
+# 2. NixOS 이외 다른배포판에서 사용할때는
+#   ~/.config/nix/nix.conf 에 아래 필수
 #   experimental-features = nix-command flakes
 # -----
 # 이하 다른 배포판에서 첫 복구시 명령어들
@@ -18,27 +17,23 @@
 # home-manager switch --flake ~/homenix#계정아이디
 # hswitch 는 아래처럼 생겼음.
 # hswitch = "cd ~/homenix && git add . && home-manager switch --flake .#계정아이디";
-# 아래 경로 꼭 변경할것.
-# userPath = "/home/계정아이디/homenix";
+# -----
 
 { pkgs, lib, config, catppuccin, ... }:
 
 let
 userName = "sephid86";
-
-# 2. 파일 목록을 읽기 위한 상대 경로
 configDir = ./config;
-
 # 3. 전체 자동화 로직 (mkOutOfStoreSymlink 적용)
 allConfigs = builtins.listToAttrs (map (name: {
       inherit name;
       value = { 
-# .config 내부의 모든 파일을 /etc/nixos 주소로 직접 연결합니다.
+# 필터를 제외한 .config 내부의 모든 파일을 /etc/nixos 주소로 직접 연결합니다.
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/homenix/config/${name}"; 
       };
       }) (builtins.filter (name: 
-          # name != "dconf" && 
-          # name != "fontconfig" &&
+# name != "dconf" && 
+# name != "fontconfig" &&
           name != "swaync"
           ) (builtins.attrNames (builtins.readDir configDir))));
 in
@@ -93,10 +88,10 @@ in
   programs = {
     home-manager.enable = true;
 
-  neovim = {
-    enable = true;
-    vimAlias = true;
-  };
+    neovim = {
+      enable = true;
+      vimAlias = true;
+    };
 # 크롬: 키링 잠금 해제 팝업 방지 및 Wayland 최적화
     google-chrome = {
       enable = true;
@@ -135,7 +130,11 @@ in
   services = {
     hypridle.enable = true;
     hyprpaper.enable = true;
-    swaync.enable = true;
+    swaync = {
+      enable = true;
+      settings = null;
+      style = null;
+    };
     easyeffects.enable = true;
   };
 # catppuccin.gtk.enable = true; 
@@ -170,43 +169,43 @@ in
 # grep '^MimeType=' /nix/store/haqaax4ajwlzwj173n1jirp5sbk9nm9v-swayimg-4.6/share/applications/swayimg.desktop | \
 # sed 's/MimeType=//; s/;/ /g' | \
 # awk '{for(i=1;i<=NF;i++) print "\"" $i "\" = [ \"swayimg.desktop\" ];"}'
-  # xdg.mimeApps = {
-  #   enable = true;
-  #   defaultApplications = {
-  #     "image/avif" = [ "swayimg.desktop" ];
-  #     "image/bmp" = [ "swayimg.desktop" ];
-  #     "image/gif" = [ "swayimg.desktop" ];
-  #     "image/heif" = [ "swayimg.desktop" ];
-  #     "image/jpeg" = [ "swayimg.desktop" ];
-  #     "image/jpg" = [ "swayimg.desktop" ];
-  #     "image/jxl" = [ "swayimg.desktop" ];
-  #     "image/pbm" = [ "swayimg.desktop" ];
-  #     "image/pjpeg" = [ "swayimg.desktop" ];
-  #     "image/png" = [ "swayimg.desktop" ];
-  #     "image/svg+xml" = [ "swayimg.desktop" ];
-  #     "image/tiff" = [ "swayimg.desktop" ];
-  #     "image/webp" = [ "swayimg.desktop" ];
-  #     "image/x-bmp" = [ "swayimg.desktop" ];
-  #     "image/x-exr" = [ "swayimg.desktop" ];
-  #     "image/x-png" = [ "swayimg.desktop" ];
-  #     "image/x-portable-anymap" = [ "swayimg.desktop" ];
-  #     "image/x-portable-bitmap" = [ "swayimg.desktop" ];
-  #     "image/x-portable-graymap" = [ "swayimg.desktop" ];
-  #     "image/x-portable-pixmap" = [ "swayimg.desktop" ];
-  #     "image/x-targa" = [ "swayimg.desktop" ];
-  #     "image/x-tga" = [ "swayimg.desktop" ];
-  #   };
-  # };
-xdg.portal = {
-  config.common.default = "*";
-  config.niri = {
-    default = [ "gnome" "gtk" ];
+# xdg.mimeApps = {
+#   enable = true;
+#   defaultApplications = {
+#     "image/avif" = [ "swayimg.desktop" ];
+#     "image/bmp" = [ "swayimg.desktop" ];
+#     "image/gif" = [ "swayimg.desktop" ];
+#     "image/heif" = [ "swayimg.desktop" ];
+#     "image/jpeg" = [ "swayimg.desktop" ];
+#     "image/jpg" = [ "swayimg.desktop" ];
+#     "image/jxl" = [ "swayimg.desktop" ];
+#     "image/pbm" = [ "swayimg.desktop" ];
+#     "image/pjpeg" = [ "swayimg.desktop" ];
+#     "image/png" = [ "swayimg.desktop" ];
+#     "image/svg+xml" = [ "swayimg.desktop" ];
+#     "image/tiff" = [ "swayimg.desktop" ];
+#     "image/webp" = [ "swayimg.desktop" ];
+#     "image/x-bmp" = [ "swayimg.desktop" ];
+#     "image/x-exr" = [ "swayimg.desktop" ];
+#     "image/x-png" = [ "swayimg.desktop" ];
+#     "image/x-portable-anymap" = [ "swayimg.desktop" ];
+#     "image/x-portable-bitmap" = [ "swayimg.desktop" ];
+#     "image/x-portable-graymap" = [ "swayimg.desktop" ];
+#     "image/x-portable-pixmap" = [ "swayimg.desktop" ];
+#     "image/x-targa" = [ "swayimg.desktop" ];
+#     "image/x-tga" = [ "swayimg.desktop" ];
+#   };
+# };
+  xdg.portal = {
+    config.common.default = "*";
+    config.niri = {
+      default = [ "gnome" "gtk" ];
+    };
   };
+xdg.userDirs = {
+  enable = true;
+  createDirectories = true; 
 };
-  xdg.userDirs = {
-    enable = true;
-    createDirectories = true; 
-  };
 # 5. 사용자별 개별 패키지 목록 (전용 모듈이 없거나 단순 도구들)
 home.packages = with pkgs; [
   gcc
@@ -233,13 +232,13 @@ home.packages = with pkgs; [
   file
   glib
   shared-mime-info
-      pretendard
-        noto-fonts-cjk-serif
-        noto-fonts-color-emoji
-        d2coding
-        nerd-fonts.d2coding
-        nerd-fonts.symbols-only
-        font-awesome
+  pretendard
+  noto-fonts-cjk-serif
+  noto-fonts-color-emoji
+  d2coding
+  nerd-fonts.d2coding
+  nerd-fonts.symbols-only
+  font-awesome
   (discord.override {
    commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
    })

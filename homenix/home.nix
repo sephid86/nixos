@@ -130,11 +130,7 @@ in
   services = {
     hypridle.enable = true;
     hyprpaper.enable = true;
-    swaync = {
-      enable = true;
-      settings = null;
-      style = null;
-    };
+    swaync.enable = true;
     easyeffects.enable = true;
   };
 # catppuccin.gtk.enable = true; 

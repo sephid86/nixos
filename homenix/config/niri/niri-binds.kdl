@@ -187,7 +187,11 @@ Mod+E hotkey-overlay-title="Open a LazyVim" {
   }
 // Mod+Shift+Slash { spawn "sh" "-c" "SELECTED=$(bluetoothctl devices | grep 'Device' | fuzzel --dmenu --prompt='Bluetooth Devices ' --width=40) && if [ -n \"$SELECTED\" ]; then bluetoothctl connect $(echo \"$SELECTED\" | awk '{print $2}'); fi" }
 
-Mod+shift+slash { spawn "sh" "-c" "SELECTED=$(bluetoothctl devices | grep 'Device' | fuzzel --dmenu --cache=$HOME/.cache/bluetooth_fuzzel --prompt='Bluetooth ' --anchor=top-right --x-margin=60 --y-margin=20 --width=30 --lines=3 --inner-pad=0) && if [ -n \"$SELECTED\" ]; then bluetoothctl connect $(echo \"$SELECTED\" | awk '{print $2}'); fi"; }
+  Mod+shift+slash{
+    spawn "sh" "-c" "DEVICES=$(bluetoothctl devices | grep 'Device' | awk '{print $2 \"|\" $3,$4,$5,$6,$7,$8,$9}'); DEVICE_NAMES=$(echo \"$DEVICES\" | cut -d'|' -f2); SELECTED_NAME=$(echo \"$DEVICE_NAMES\" | fuzzel --dmenu --cache=$HOME/cache/blthlist_fuzzel --prompt='Bluetooth Devices ' --anchor=top-right --x-margin=60 --y-margin=20 --width=25 --lines=3); if [ -n \"$SELECTED_NAME\" ]; then MAC_ADDR=$(echo \"$DEVICES\" | grep \"$SELECTED_NAME\" | cut -d'|' -f1); bluetoothctl connect $MAC_ADDR; fi"
+  }
+// Mod+Shift+Slash { spawn "sh" "-c" "SELECTED=$(bluetoothctl devices | awk '{sub($1, \"\"); mac=$2; $1=\"\"; print $0 \" | \" mac}' | sed 's/^ //' | fuzzel --dmenu --cache=$HOME/.cache/bluetooth_fuzzel --prompt='Bluetooth ' --anchor=top-right --x-margin=60 --y-margin=20 --width=30 --lines=3 --inner-pad=0) && if [ -n \"$SELECTED\" ]; then bluetoothctl connect $(echo \"$SELECTED\" | awk -F ' | ' '{print $NF}'); fi"; }
+// Mod+shift+slash { spawn "sh" "-c" "SELECTED=$(bluetoothctl devices | grep 'Device' | fuzzel --dmenu --cache=$HOME/.cache/bluetooth_fuzzel --prompt='Bluetooth ' --anchor=top-right --x-margin=60 --y-margin=20 --width=30 --lines=3 --inner-pad=0) && if [ -n \"$SELECTED\" ]; then bluetoothctl connect $(echo \"$SELECTED\" | awk '{print $2}'); fi"; }
 
     // Mod + M을 누르면 플로팅 상태를 유지하며 화면을 꽉 채움
     // Mod+M { spawn "sh" "-c" "niri msg action set-window-height 100%; niri msg action set-window-width 100%; niri msg action center-column"; }

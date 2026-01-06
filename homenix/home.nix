@@ -130,8 +130,26 @@ in
   services = {
     hypridle.enable = true;
     hyprpaper.enable = true;
-    swaync.enable = true;
     easyeffects.enable = true;
+    swaync = {
+      enable = true;
+      settings = {
+        "positionX" = "center";
+        "positionY" = "bottom";
+
+        "notification-margin-bottom" = 20;
+        "notification-spacing" = 10;
+
+        "control-center-positionX" = "right"; 
+        "control-center-positionY" = "top";
+      };
+    };
+  };
+
+# Catppuccin 테마 적용 (NixOS/Home Manager 전용 모듈 사용 시)
+  catppuccin.swaync = {
+    enable = true;
+    flavor = "macchiato";
   };
 # catppuccin.gtk.enable = true; 
 # 4. GTK 및 UI 테마 (Nix 스타일로 관리)
@@ -254,10 +272,10 @@ in
         "--gui-address=127.0.0.1:8384"
     ];
   };
-programs.direnv = {
-  enable = true;
-  nix-direnv.enable = true;
-};
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
   home.packages = with pkgs; [
     gcc
       lua

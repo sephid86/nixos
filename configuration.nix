@@ -174,6 +174,7 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
   programs.niri.enable = true;
   programs.xfconf.enable = true;
   programs.dconf.enable = true;
+  # programs.nix-ld.enable = true;
   programs.neovim = {
     enable = true;
     vimAlias = true;

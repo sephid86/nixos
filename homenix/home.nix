@@ -22,23 +22,23 @@
 { pkgs, lib, config, catppuccin, ... }:
 
 let
-userName = "sephid86";
-configDir = ./config;
-# 3. 전체 자동화 로직 (mkOutOfStoreSymlink 적용)
-allConfigs = builtins.listToAttrs (map (name: {
-      inherit name;
-      value = { 
-# 필터를 제외한 .config 내부의 모든 파일을 /etc/nixos 주소로 직접 연결합니다.
+  userName = "sephid86";
+  configDir = ./config;
+  # 3. 전체 자동화 로직 (mkOutOfStoreSymlink 적용)
+  allConfigs = builtins.listToAttrs (map (name: {
+    inherit name;
+    value = { 
+      # 필터를 제외한 .config 내부의 모든 파일을 /etc/nixos 주소로 직접 연결합니다.
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/homenix/config/${name}"; 
-      };
-      }) (builtins.filter (name: 
-# name != "dconf" && 
-# name != "fontconfig" &&
-          name != "swaync"
-          ) (builtins.attrNames (builtins.readDir configDir))));
+    };
+  }) (builtins.filter (name: 
+      # name != "dconf" && 
+      # name != "fontconfig" &&
+      name != "swaync"
+    ) (builtins.attrNames (builtins.readDir configDir))));
 in
 
-{
+  {
   imports = [
     catppuccin.homeModules.catppuccin # 독립형에서는 homeModules가 정석
   ];
@@ -47,8 +47,8 @@ in
   home.stateVersion = "25.11";
   home.enableNixpkgsReleaseCheck = false;
   xdg.configFile = allConfigs;
-# xdg.configFile.".".source = ./.config;
-# nixpkgs.config.allowUnfree = true;
+  # xdg.configFile.".".source = ./.config;
+  # nixpkgs.config.allowUnfree = true;
 
   home.language.base = "ko_KR.UTF-8";
   i18n.inputMethod = {
@@ -84,31 +84,49 @@ in
     };
   };
 
-# 2. 프로그램 설정 (enable 방식 - 설정 및 서비스 자동 관리)
+  # 2. 프로그램 설정 (enable 방식 - 설정 및 서비스 자동 관리)
   programs = {
     home-manager.enable = true;
 
     neovim = {
       enable = true;
       vimAlias = true;
+      extraPackages = with pkgs; [
+        tree-sitter
+        nil
+        nixd
+        nixpkgs-fmt
+        statix
+        vscode-langservers-extracted
+        # fzf-lua 에러 해결을 위한 도구
+        fzf
+        fd
+        ripgrep
+        # Mason 대신 사용하는 네이티브 도구들
+        nil
+        nixd
+        statix
+        lua-language-server
+        # clang-tools (clangd 포함) devel flake 에서만 켜는게 편함.
+      ];
     };
-# 크롬: 키링 잠금 해제 팝업 방지 및 Wayland 최적화
+    # 크롬: 키링 잠금 해제 팝업 방지 및 Wayland 최적화
     google-chrome = {
       enable = true;
       commandLineArgs = [
         "--password-store=basic"
-          "--enable-features=vulkan"
-          "--use-angle=vulkan"
+        "--enable-features=vulkan"
+        "--use-angle=vulkan"
       ];
     };
-# 멀티미디어 및 도구 (enable 권장 항목들)
+    # 멀티미디어 및 도구 (enable 권장 항목들)
     mpv = {
       enable = true;
       scripts = with pkgs.mpvScripts; [ mpris ];
     };
 
     wezterm.enable = true;
-# foot.enable = true;
+    # foot.enable = true;
     yazi = {
       enable = true;
       enableBashIntegration = false;
@@ -125,7 +143,7 @@ in
     };
     obs-studio.enable = true;
   };
-# 3. 백그라운드 서비스 설정
+  # 3. 백그라운드 서비스 설정
   services = {
     hypridle.enable = true;
     hyprpaper.enable = true;
@@ -141,17 +159,17 @@ in
 
         "control-center-positionX" = "right"; 
         "control-center-positionY" = "top";
+      };
     };
   };
-  };
 
-# Catppuccin 테마 적용 (NixOS/Home Manager 전용 모듈 사용 시)
+  # Catppuccin 테마 적용 (NixOS/Home Manager 전용 모듈 사용 시)
   catppuccin.swaync = {
     enable = true;
     flavor = "macchiato";
   };
-# catppuccin.gtk.enable = true; 
-# 4. GTK 및 UI 테마 (Nix 스타일로 관리)
+  # catppuccin.gtk.enable = true; 
+  # 4. GTK 및 UI 테마 (Nix 스타일로 관리)
   gtk = {
     enable = true;
     theme = {
@@ -195,7 +213,7 @@ in
     enable = true;
     createDirectories = true; 
   };
-# 5. 사용자별 개별 패키지 목록 (전용 모듈이 없거나 단순 도구들)
+  # 5. 사용자별 개별 패키지 목록 (전용 모듈이 없거나 단순 도구들)
 
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -215,26 +233,26 @@ in
   };
 
   home.shellAliases = {
-# git add를 포함하여 수정 사항을 즉시 반영하고 빌드
+    # git add를 포함하여 수정 사항을 즉시 반영하고 빌드
     nswitch = "cd /etc/nixos && sudo git add . && sudo nixos-rebuild switch --flake .";
-# 빌드 성공 후 찌꺼기까지 싹 청소 (가장 깔끔한 상태 유지)
+    # 빌드 성공 후 찌꺼기까지 싹 청소 (가장 깔끔한 상태 유지)
     nconfirm = "cd /etc/nixos && sudo git add . && sudo nixos-rebuild switch --flake . && sudo nix-collect-garbage -d";
     nconf = "sudoedit /etc/nixos/configuration.nix";
-# 2. 사용자 설정 업데이트 (자주 실행: 새로운 패키지 설치 등)
-# [수정] 이제 Standalone 방식의 명령어로 대체합니다.
+    # 2. 사용자 설정 업데이트 (자주 실행: 새로운 패키지 설치 등)
+    # [수정] 이제 Standalone 방식의 명령어로 대체합니다.
     hswitch = "cd ~/homenix && git add . && home-manager switch -b backup --flake .#${userName}";
 
     vi = "nvim";
     sudo = "sudo "; # 뒤에 공백이 있어야 별칭 뒤의 명령어도 별칭 인식 가능
-      ls = "ls --color=auto";
+    ls = "ls --color=auto";
 
-# 백업 및 SSH 관련
+    # 백업 및 SSH 관련
     sshcon = "ssh 접속아이디@접속주소";
     bakweb = "scp -r 접속아이디@접속주소:~/www ~/; tar -zcvf ~/$(date +%y%m%d)-bakweb.tgz ~/웹경로; rm -rf ~/웹경로";
     bakdb = "ssh 접속아이디@접속주소 mysqldump -u디비아이디 > $(date +%y%m%d).sql; tar -zcvf $(date +%y%m%d)-db.tgz $(date +%y%m%d).sql; rm $(date +%y%m%d).sql";
     bakall = "bakweb; bakdb";
 
-# sway = "env XDG_CURRENT_DESKTOP=sway GTK_IM_MODULE=kime QT_IM_MODULE=kime XMODIFIERS=@im=kime sway";
+    # sway = "env XDG_CURRENT_DESKTOP=sway GTK_IM_MODULE=kime QT_IM_MODULE=kime XMODIFIERS=@im=kime sway";
   };
 
   programs.bash = {
@@ -255,7 +273,7 @@ in
 
 # 프롬프트 설정 (PS1)
     PS1='[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]]\$ '
-      '';
+    '';
   };
 
   services.kdeconnect = {
@@ -267,8 +285,8 @@ in
     enable = true;
     extraOptions = [
       "--config=/home/${userName}/.syncthing"
-        "--data=/home/${userName}/.syncthingdb"
-        "--gui-address=127.0.0.1:8384"
+      "--data=/home/${userName}/.syncthingdb"
+      "--gui-address=127.0.0.1:8384"
     ];
   };
   programs.direnv = {
@@ -277,37 +295,37 @@ in
   };
   home.packages = with pkgs; [
     gcc
-      lua
-      jq
-      xwayland-satellite
-      gnome-themes-extra
-      wl-clipboard
-      hyprpolkitagent
-      libnotify
-      playerctl
-      grim
-      slurp
-      swayimg
-      pavucontrol
-      eww
-      ffmpegthumbnailer
-      imagemagick
-      gimp
-      libreoffice
-      pciutils
-      xdg-utils 
-      file
-      glib
-      shared-mime-info
-      pretendard
-      noto-fonts-cjk-serif
-      noto-fonts-color-emoji
-      d2coding
-      nerd-fonts.d2coding
-      nerd-fonts.symbols-only
-      font-awesome
-      (discord.override {
-       commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
-       })
+    lua
+    jq
+    xwayland-satellite
+    gnome-themes-extra
+    wl-clipboard
+    hyprpolkitagent
+    libnotify
+    playerctl
+    grim
+    slurp
+    swayimg
+    pavucontrol
+    eww
+    ffmpegthumbnailer
+    imagemagick
+    gimp
+    libreoffice
+    pciutils
+    xdg-utils 
+    file
+    glib
+    shared-mime-info
+    pretendard
+    noto-fonts-cjk-serif
+    noto-fonts-color-emoji
+    d2coding
+    nerd-fonts.d2coding
+    nerd-fonts.symbols-only
+    font-awesome
+    (discord.override {
+      commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
+    })
   ];
 }

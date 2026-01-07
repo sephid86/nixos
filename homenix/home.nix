@@ -324,6 +324,7 @@ in
     nerd-fonts.d2coding
     nerd-fonts.symbols-only
     font-awesome
+    vial
     (discord.override {
       commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
     })

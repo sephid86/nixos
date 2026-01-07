@@ -41,7 +41,8 @@ window#waybar {
 }
 /* 워크스페이스: niri 스타일 */
 #workspaces button {
-    padding: 0 5px;
+    padding: 0 6px;
+    min-width: 16px;
     color: #f5e0dc;
 }
 

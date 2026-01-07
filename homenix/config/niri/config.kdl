@@ -7,7 +7,7 @@ environment {
   XDG_CURRENT_DESKTOP "niri"
   XDG_SESSION_DESKTOP "niri"
 
-  GLFW_IM_MODULE "fcitx"
+  GLFW_IM_MODULE "ibus"
   GTK_IM_MODULE "fcitx"
   QT_IM_MODULE "fcitx"
   XMODIFIERS "@im=fcitx"

@@ -91,24 +91,24 @@ update_status()
 -- 5. D-Bus 신호 구독 (이벤트 발생 시 즉시 반응 / Event Subscription)
 -- 신뢰성 있는 신호들을 구독하여 입력기 상태 변화에 즉각 대응합니다.
 -- Subscribes to reliable signals for immediate reaction to status changes.
-if bus then
-    -- 입력 상태가 바뀔 때 발생하는 Fcitx5 고유 신호 구독
-    -- Subscribe to Fcitx5 native status change signal.
-    bus:signal_subscribe(
-        'org.fcitx.Fcitx5',
-        'org.fcitx.Fcitx.InputMethod1',
-        'StatusChanged',
-        '/org/fcitx/Fcitx5/InputMethod1',
-        nil,
-        Gio.DBusSignalFlags.NONE,
-        update_status
-    )
+-- if bus then
+--     -- 입력 상태가 바뀔 때 발생하는 Fcitx5 고유 신호 구독
+--     -- Subscribe to Fcitx5 native status change signal.
+--     bus:signal_subscribe(
+--         'org.fcitx.Fcitx5',
+--         'org.fcitx.Fcitx.InputMethod1',
+--         'StatusChanged',
+--         '/org/fcitx/Fcitx5/InputMethod1',
+--         nil,
+--         Gio.DBusSignalFlags.NONE,
+--         update_status
+--     )
     
     -- 범용성을 위해 기존의 신호들도 유지 (StatusNotifier 등)
     -- Maintain auxiliary signals for universal compatibility.
     bus:signal_subscribe(nil, "org.kde.StatusNotifierItem", "NewIcon", nil, nil, 0, update_status)
     bus:signal_subscribe(nil, "com.canonical.dbusmenu", "LayoutUpdated", nil, nil, 0, update_status)
-end
+-- end
 
 -- 6. 메인 루프 실행 (Start main event loop)
 -- 이벤트 기반 방식으로 CPU 점유율이 0%에 수렴합니다.

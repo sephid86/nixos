@@ -125,24 +125,6 @@ in
     };
     obs-studio.enable = true;
   };
-nixpkgs.overlays = [
-  (final: prev: {
-    swaync = prev.swaync.overrideAttrs (oldAttrs: {
-      postPatch = (oldAttrs.postPatch or "") + ''
-        # 1. 팝업 위젯(본체) 클릭 시 전체 삭제(dismiss) 대신 위젯만 숨기기(hide)
-        # ClosedReasons.CLICKED가 발생하는 지점을 찾아 삭제 로직을 무력화합니다.
-        sed -i 's/request_dismiss_notification (ClosedReasons.CLICKED, true);/this.hide();/g' src/Widgets/NotificationRow.vala
-
-        # 2. X 버튼(ClosedReasons.DISMISSED) 클릭 시에도 컨트롤 센터에 남기려면 hide로 대체
-        # (만약 X 버튼은 진짜 삭제로 남겨두고 싶다면 이 줄은 빼셔도 됩니다.)
-        sed -i 's/request_dismiss_notification (ClosedReasons.DISMISSED, false);/this.hide();/g' src/Widgets/NotificationRow.vala
-
-        # 3. 스와이프(밀어서 닫기) 시에도 남기려면 수정
-        sed -i 's/request_dismiss_notification (ClosedReasons.DISMISSED, true);/this.hide();/g' src/Widgets/NotificationRow.vala
-      '';
-    });
-  })
-];
 # 3. 백그라운드 서비스 설정
   services = {
     hypridle.enable = true;

@@ -8,18 +8,18 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports =
     [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    ./modules
-# ./niri.niafgasdfsadxxxgsssdfasdgaaasdsagasdgasdgawhatx
+      ./hardware-configuration.nix
+      ./modules
+      # ./niri.niafgasdfsadxxxgsssdfasdgaaasdsagasdgasdgawhatx
     ];
 
-# Time Zone and Hardware Clock Settings
+  # Time Zone and Hardware Clock Settings
   time = {
     timeZone = "Asia/Seoul";
     hardwareClockInLocalTime = false; # UTC 방식을 사용하여 윈도우와 시간 충돌 방지 (리눅스 정석)
   };
 
-# Kernel n boot
+  # Kernel n boot
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     kernel = {
@@ -36,7 +36,7 @@
       verbose = false;
     };
 
-# 부트로더 설정
+    # 부트로더 설정
     loader = {
       systemd-boot = {
         enable = true;
@@ -45,7 +45,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-# 플리머스(부팅 스플래시 화면) 설정
+    # 플리머스(부팅 스플래시 화면) 설정
     plymouth = {
       enable = true;
       theme = "breeze";
@@ -53,17 +53,17 @@
 
     kernelParams = [
       "quiet"
-        "splash"
-        "vga=current"
-        "udev.log_priority=5"
-        "usbcore.autosuspend=-1"
+      "splash"
+      "vga=current"
+      "udev.log_priority=5"
+      "usbcore.autosuspend=-1"
     ];
   };
 
-# Input Method (Fcitx5 for Hangul)
+  # Input Method (Fcitx5 for Hangul)
   # i18n.defaultLocale = "ko_KR.UTF-8";
-i18n.defaultLocale = "en_US.UTF-8";
-i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 폰트/데이터를 미리 생성해둬야 함
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 폰트/데이터를 미리 생성해둬야 함
   # i18n.inputMethod = {
   #   type = "fcitx5";
   #   enable = true;
@@ -74,17 +74,17 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
   # };
   # nixpkgs.hostPlatform = "x86_64-linux";
   nixpkgs = {
-# # 1. 라이젠 5600(Zen 3) CPU 밀착 최적화
+    # # 1. 라이젠 5600(Zen 3) CPU 밀착 최적화
     hostPlatform = {
-#       gcc.arch = "znver3";    # Ryzen 5600 전용 명령어 최적화
-#         gcc.tune = "znver3";    # Zen 3 마이크로아키텍처 튜닝
-        system = "x86_64-linux";
+      #       gcc.arch = "znver3";    # Ryzen 5600 전용 명령어 최적화
+      #         gcc.tune = "znver3";    # Zen 3 마이크로아키텍처 튜닝
+      system = "x86_64-linux";
     };
 
-# 2. 패키지 정책 및 호환성 설정
+    # 2. 패키지 정책 및 호환성 설정
     config = {
       allowUnfree = true;        # 비자유 소프트웨어(드라이버 등) 허용
-        enable1ultilib = true;     # 32비트 앱(스팀 등) 지원 (저거 오타 아님.)
+      enable1ultilib = true;     # 32비트 앱(스팀 등) 지원 (저거 오타 아님.)
     };
   };
   hardware.graphics = {
@@ -94,31 +94,31 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
 
   hardware.enableRedistributableFirmware = true;
 
-# Networking
+  # Networking
   networking.networkmanager.enable = true;
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
     settings = {
       General = {
-# Shows battery charge of connected devices on supported
-# Bluetooth adapters. Defaults to 'false'.
-# Experimental = true;
-# When enabled other devices can connect faster to us, however
-# the tradeoff is increased power consumption. Defaults to
-# 'false'.
-# FastConnectable = true;
+        # Shows battery charge of connected devices on supported
+        # Bluetooth adapters. Defaults to 'false'.
+        # Experimental = true;
+        # When enabled other devices can connect faster to us, however
+        # the tradeoff is increased power consumption. Defaults to
+        # 'false'.
+        # FastConnectable = true;
       };
       Policy = {
-# Enable all controllers when they are found. This includes
-# adapters present on start as well as adapters that are plugged
-# in later on. Defaults to 'true'.
-# AutoEnable = true;
+        # Enable all controllers when they are found. This includes
+        # adapters present on start as well as adapters that are plugged
+        # in later on. Defaults to 'true'.
+        # AutoEnable = true;
       };
     };
   };
 
-# User Account
+  # User Account
   users.users.sephid86 = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" "bluetooth" ]; # audio/video 그룹 추가 권장
@@ -139,7 +139,7 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   };
 
-# PipeWire (Sound Server)
+  # PipeWire (Sound Server)
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -162,13 +162,13 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
   services.udisks2.enable = true;
   services.gvfs.enable = true;
   services.tumbler.enable = true;
-# services.openssh.enable = true;
+  # services.openssh.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.greetd.enableGnomeKeyring = true;
   security.polkit.enable = true;
 
-# programs.ssh.startAgent = true;
+  # programs.ssh.startAgent = true;
   programs.regreet.enable = true;
   programs.git.enable = true;
   programs.niri.enable = true;
@@ -193,12 +193,20 @@ i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ko_KR.UTF-8/UTF-8" ]; # 한글 �
   #   };
   # };
 
+  # 모든 HDD 를 10분간 미사용시 spindown 합니다.
+  # 절전과 HDD 의 수명보호를 위해. hdparm pkg 필요.
+  # 당신의 데이터는 소중하니까요.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="block", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -S 120 /dev/%k"
+  '';
+
   environment.systemPackages = with pkgs; [
-      vulkan-tools
-      libva-utils
-  # xdg-utils 
-  # glib
-  # shared-mime-info
+    vulkan-tools
+    libva-utils
+    hdparm
+    # xdg-utils 
+    # glib
+    # shared-mime-info
   ];
 
   system.stateVersion = "25.11"; 

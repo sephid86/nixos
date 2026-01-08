@@ -18,7 +18,8 @@ input {
   keyboard {
     xkb {
       layout "us,kr"
-      options "grp:toggle,korean:ralt_hangul,compose:ralt,ctrl:nocaps"
+      options "grp:toggle,korean:ralt_hangul,compose:ralt"
+      // options "grp:toggle,korean:ralt_hangul,compose:ralt,ctrl:nocaps"
       // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
     }
     // numlock

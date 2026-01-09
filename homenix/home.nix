@@ -105,10 +105,10 @@ in
         # Mason 대신 사용하는 네이티브 도구들
         nil
         nixd
-        statix
         lua-language-server
         # clang-tools (clangd 포함) devel flake 에서만 켜는게 편함.
       ];
+      # withNodeJs = true;
     };
     # 크롬: 키링 잠금 해제 팝업 방지 및 Wayland 최적화
     google-chrome = {
@@ -296,6 +296,11 @@ in
   home.packages = with pkgs; [
     gcc
     lua
+    lua52Packages.lgi
+    # lgi가 실행 중에 참조할 필수 런타임 라이브러리
+    gobject-introspection
+    glib
+    nodejs
     jq
     xwayland-satellite
     gnome-themes-extra

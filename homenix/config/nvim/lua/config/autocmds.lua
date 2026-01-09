@@ -22,3 +22,4 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "WinResized", "BufWinEnter" }, {
     end
   end,
 })
+

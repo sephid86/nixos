@@ -1,23 +1,30 @@
--- ~/homenix/config/nvim/lua/plugins/smart-save.lua
-
 return {
   {
-    -- [1단계] SudaWrite 플러그인 설치 및 즉시 활성화 보장
     "lambdalisue/suda.vim",
-    lazy = false, -- [무결성 보강] 다른 환경에서도 켜지자마자 SudaWrite 명령어를 준비합니다.
+    lazy = false,
     config = function()
-      -- Suda 기본 도구 설정
       vim.g.suda_command = "sudo"
+      -- [중요] suda가 자동으로 읽기/쓰기를 가로채지 않도록 설정 (수동 제어 위주)
+      vim.g.suda_smart_edit = 1 
 
-      -- [2단계] 사용자님의 지능형 저장 로직 (SmartWrite)
-      -- 전역 함수로 등록하여 약어(abbreviation)에서 호출 가능하게 만듭니다.
       _G.SmartWrite = function(mode)
         local file = vim.fn.expand("%")
-        -- 파일 쓰기 권한이 있으면 일반 저장, 없으면 SudaWrite 호출
-        if vim.fn.filewritable(file) == 1 then
+        
+        -- 1. 파일이 존재하는 경우: 쓰기 권한 직접 체크
+        -- 2. 파일이 없는 경우: 부모 디렉토리의 쓰기 권한 체크
+        local can_write = false
+        if vim.fn.filereadable(file) == 1 then
+          can_write = (vim.fn.filewritable(file) == 1)
+        else
+          local dir = vim.fn.fnamemodify(file, ":h")
+          can_write = (vim.fn.filewritable(dir) == 2) -- 2는 디렉토리 쓰기 가능
+        end
+
+        -- 권한이 있거나, 특수 버퍼인 경우 일반 저장
+        if can_write or file == "" or vim.bo.buftype ~= "" then
           vim.cmd(mode == "wq" and "wq" or "w")
         else
-          -- 플러그인이 상단에서 로드되었으므로 안전하게 호출됩니다.
+          -- 정말 권한이 없을 때만 SudaWrite
           vim.cmd("SudaWrite")
           if mode == "wq" then
             vim.cmd("q")
@@ -25,8 +32,6 @@ return {
         end
       end
 
-      -- [3단계] 무한 루프가 발생하지 않는 안전한 명령줄 약어 설정
-      -- 사용자님의 '엔터 시 작동' 의도를 100% 반영하면서도 재귀 호출을 원천 차단합니다.
       vim.cmd([[
         cnoreabbrev <expr> w (getcmdtype() == ':' && getcmdline() == 'w') ? 'lua SmartWrite("w")' : 'w'
         cnoreabbrev <expr> wq (getcmdtype() == ':' && getcmdline() == 'wq') ? 'lua SmartWrite("wq")' : 'wq'

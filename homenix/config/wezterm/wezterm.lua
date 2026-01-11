@@ -14,6 +14,7 @@ config.text_background_opacity = 1.0
 
 -- or, changing the font size and color scheme.
 config.font = wezterm.font("monospace")
+config.warn_about_missing_glyphs = false
 config.font_size = 14
 config.color_scheme = 'Catppuccin Mocha'
 

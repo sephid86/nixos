@@ -4,8 +4,8 @@ include "niri-window-rule.kdl"
 environment {
   // QT_QPA_PLATFORM "wayland"
   // DISPLAY null
-  XDG_CURRENT_DESKTOP "niri"
-  XDG_SESSION_DESKTOP "niri"
+  // XDG_CURRENT_DESKTOP "niri"
+  // XDG_SESSION_DESKTOP "niri"
 
   GLFW_IM_MODULE "ibus"
   GTK_IM_MODULE "fcitx"

@@ -1,0 +1,100 @@
+/* 
+ * UI Philosophy: Zen-Information Density
+ * Theme: Catppuccin Macchiato (0.85 Transparency)
+ */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans KR", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+/* 바 전체 컨테이너 */
+#waybar {
+    background-color: transparent;
+    color: #cad3f5;
+}
+
+/* 아일랜드 공통 스타일: 0.85 투명도와 부드러운 외곽선 */
+.modules-left, .modules-center, .modules-right {
+    background: rgba(36, 39, 58, 0.85); /* Macchiato Base */
+    border: 1px solid rgba(183, 189, 248, 0.15); /* Lavender 투명 테두리 */
+    border-radius: 16px;
+    margin: 10px 6px;
+    padding: 2px 14px;
+    transition: all 0.3s ease;
+}
+
+/* --- [LEFT ISLAND: Time, Power & Resources] --- */
+#clock {
+    color: #b7bdf8; /* Lavender */
+    font-weight: 800;
+    margin-right: 12px;
+}
+
+/* 배터리, 온도, CPU, 메모리를 하나의 시각적 그룹으로 묶음 */
+#battery, #temperature, #cpu, #memory {
+    color: #a5adcb; /* Subtext0 */
+    font-size: 11px;
+    margin: 0 4px;
+}
+
+/* 배터리 경고 시 색상 변화 */
+#battery.critical { color: #ed8796; } /* Red */
+#battery.charging { color: #a6da95; } /* Green */
+
+/* Niri 관련 모듈: 왼쪽 아일랜드 내에서 분리감 부여 */
+#workspaces, #mode, #scratchpad {
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid rgba(147, 153, 178, 0.3);
+}
+
+#workspaces button {
+    color: #5b6078; /* Surface2 */
+    padding: 0 4px;
+}
+
+#workspaces button.active {
+    color: #7dc4e4; /* Sapphire */
+    font-weight: bold;
+}
+
+/* --- [CENTER ISLAND: Window & fcitx5] --- */
+#window {
+    color: #cad3f5;
+    font-style: italic;
+    margin-right: 15px;
+}
+
+/* fcitx5 커스텀 스테이터스: 존재감 있는 포인트 */
+#custom-fcitx5 {
+    color: #f2cdcd; /* Flamingo */
+    background: rgba(73, 77, 100, 0.5); /* Surface1 반투명 배경 */
+    border-radius: 8px;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+/* --- [RIGHT ISLAND: System & Media] --- */
+#mpris {
+    color: #c6a0f6; /* Mauve */
+    margin-right: 10px;
+}
+
+#network, #bluetooth, #pulseaudio, #backlight, #idle_inhibitor {
+    color: #ee99a0; /* Maroon */
+    margin: 0 6px;
+}
+
+#tray {
+    margin-left: 10px;
+    border-left: 1px solid rgba(147, 153, 178, 0.3);
+}
+
+#custom-notification {
+    color: #eed49f; /* Yellow */
+    margin-left: 8px;
+}

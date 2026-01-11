@@ -204,11 +204,11 @@ in
     };
   };
 
-  xdg.portal = {
-    config.niri = {
-      default = [ "gnome" "gtk" "wlr" ];
-    };
-  };
+  # xdg.portal = {
+  #   config.niri = {
+  #     default = [ "gnome" "gtk" "wlr" ];
+  #   };
+  # };
   xdg.userDirs = {
     enable = true;
     createDirectories = true; 
@@ -220,9 +220,6 @@ in
     NIXOS_OZONE_WL = "1";
     SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
     QT_QPA_PLATFORM = "wayland";
-
-    XDG_CURRENT_DESKTOP = "niri";
-    XDG_SESSION_DESKTOP = "niri";
 
     GLFW_IM_MODULE  = "ibus";
     GTK_IM_MODULE  = "fcitx";

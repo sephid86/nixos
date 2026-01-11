@@ -6,6 +6,7 @@
 * {
     background: transparent;
     background-color: transparent;
+    border: none;
     font-family: sans-serif;
     font-size: 13px;
     min-height: 0;
@@ -123,28 +124,28 @@ color: #494d64;
     /* color: #f2cdcd; */
 }
 
-tooltip {
+
+/* 실제 디자인은 label에 입힙니다 */
+tooltip label {
+    background: rgba(36, 39, 58, 0.95); /* Macchiato Base */
+    border: 1px solid rgba(183, 189, 248, 0.2); /* Lavender */
+    border-radius: 8px;
+    padding: 8px 12px;
     color: #cad3f5;
-    font-family: sans-serif;
-    background: rgba(36, 39, 58, 0.95);
-    /* background: rgba(30, 32, 48, 0.85); */
-    /* border: 1px solid rgba(183, 189, 248, 0.2); */
-    /* border-radius: 12px; */
-    /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); */
+    /* label 마진은 0으로 고정 */
+    margin: 0;
 }
 
 /* --- [CONTEXT MENU: Zen Refinement] --- */
 menu {
     background: rgba(36, 39, 58, 0.98); /* Macchiato Base (가독성을 위해 거의 불투명) */
     /* border: 1px solid rgba(183, 189, 248, 0.2);  */
-    border-radius: 12px;
     padding: 6px;
     color: #cad3f5;
 }
 
 menuitem {
     padding: 6px 12px;
-    border-radius: 8px;
     transition: all 0.2s ease;
 }
 

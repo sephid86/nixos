@@ -4,11 +4,13 @@
  */
 
 * {
-    border: none;
-    border-radius: 0;
+    background: transparent;
+    background-color: transparent;
     font-family: sans-serif;
     font-size: 13px;
     min-height: 0;
+    padding: 0;
+    margin: 0;
 }
 
 /* 전체 바 배경 투명화 */
@@ -31,7 +33,7 @@ margin: 0px 6px 6px 6px;
 /* --- [LEFT ISLAND: Start of Vision] --- */
 #clock {
     color: #b7bdf8; /* Lavender: 가장 명확한 존재감 */
-    font-weight: 800;
+    font-weight: Bold;
     margin-right: 12px;
 }
 
@@ -51,21 +53,24 @@ margin: 0px 6px 6px 6px;
 
 /* Niri 모듈 그룹 */
 #workspaces, #mode, #scratchpad {
-    margin-left: 10px;
-    padding-left: 10px;
     border-left: 1px solid rgba(147, 153, 178, 0.3);
 }
 
 #workspaces button {
     color: #5b6078; /* Surface2: 비활성 */
-    padding: 0 4px;
 }
-
 #workspaces button.active {
     color: #7dc4e4; /* Sapphire: 활성 */
     font-weight: bold;
 }
-
+#workspaces button:hover {
+  padding: 0 6px;
+  color: #f5e0dc;
+}
+#workspaces button.active:hover {
+    color: #7dc4e4;
+    font-weight: bold;
+}
 /* --- [CENTER ISLAND: Focused Context] --- */
 #window {
     color: #cad3f5;
@@ -78,6 +83,7 @@ margin: 0px 6px 6px 6px;
     background: rgba(73, 77, 100, 0.4); /* 미세한 입체감 */
     border-radius: 8px;
     padding: 0 10px;
+    margin-left: 12px;
     font-weight: bold;
 }
 
@@ -91,7 +97,7 @@ color: #494d64;
 /* 기본 시스템 아이콘: Flamingo로 통일 */
 #mpris {
   font-size: 12px;
-    padding-right: 8px;
+    padding-right: 6px;
     border-right: 1px solid rgba(147, 153, 178, 0.3);
 }
 
@@ -112,14 +118,52 @@ color: #494d64;
 
 /* 트레이 및 구분선 */
 #tray {
-    padding-left: 8px;
+    padding-left: 6px;
     border-left: 1px solid rgba(147, 153, 178, 0.3);
     /* color: #f2cdcd; */
 }
 
-/* 호버 시 은은한 반응성 */
-.modules-left:hover, .modules-center:hover, .modules-right:hover {
-    background: rgba(46, 50, 70, 0.9); /* Surface0 */
-    border: 1px solid rgba(183, 189, 248, 0.3);
+tooltip {
+    color: #cad3f5;
+    font-family: sans-serif;
+    background: rgba(36, 39, 58, 0.95);
+    /* background: rgba(30, 32, 48, 0.85); */
+    /* border: 1px solid rgba(183, 189, 248, 0.2); */
+    /* border-radius: 12px; */
+    /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); */
+}
+
+/* --- [CONTEXT MENU: Zen Refinement] --- */
+menu {
+    background: rgba(36, 39, 58, 0.98); /* Macchiato Base (가독성을 위해 거의 불투명) */
+    /* border: 1px solid rgba(183, 189, 248, 0.2);  */
+    border-radius: 12px;
+    padding: 6px;
+    color: #cad3f5;
+}
+
+menuitem {
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+/* 마우스 호버 시: Sapphire 색상으로 부드럽게 강조 */
+menuitem:hover {
+    background: rgba(125, 196, 228, 0.15); /* Sapphire 투명도 */
+    color: #7dc4e4; /* Sapphire 텍스트 */
+}
+
+/* 메뉴 구분선 */
+separator {
+    background: rgba(147, 153, 178, 0.2); /* Surface1 수준의 희미한 선 */
+    margin: 4px 8px;
+    min-height: 1px;
+}
+
+/* 체크박스나 라디오 버튼이 있는 메뉴 (예: 네트워크 선택) */
+check, radio {
+    margin-right: 8px;
+    color: #b7bdf8; /* Lavender */
 }
 

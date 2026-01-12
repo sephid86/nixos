@@ -20,6 +20,6 @@ config.color_scheme = 'Catppuccin Mocha'
 
 -- 창을 닫을 때 뜨는 모든 확인 메시지를 즉시 차단합니다.
 config.window_close_confirmation = 'NeverPrompt'
-
+-- config.default_prog = { 'wezterm' }
 -- Finally, return the configuration to wezterm:
 return config

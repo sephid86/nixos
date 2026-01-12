@@ -169,7 +169,7 @@ layout {
     // left 64
     // right 64
     // top -8
-    // bottom 10
+    bottom -8
   }
 }
 // spawn-at-startup "systemctl" "--user" "start" "hyprpolkitagent"

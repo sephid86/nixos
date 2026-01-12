@@ -1,0 +1,45 @@
+-- return {
+--   -- 이 플러그인은 외부 설치 없이 nvim 내부 기능을 활용합니다.
+--   "nvim-lua/plenary.nvim",
+--   config = function()
+--     -- 새 파일이 버퍼에 로드될 때 실행되는 자동 명령(autocmd)
+--     vim.api.nvim_create_autocmd("BufReadPost", {
+--       group = vim.api.nvim_create_augroup("NiriFocusPlugin", { clear = true }),
+--       callback = function()
+--         -- 1. 실제 파일일 때만 작동 (NvimTree, Dashboard 등 제외)
+--         if vim.bo.buftype == "" then
+--           -- 2. 아주 짧은 지연(0.05초)을 주어 UI가 렌더링된 후 실행
+--           vim.defer_fn(function()
+--             local file_name = vim.fn.expand("%:t")
+--             if file_name == "" then return end
+--
+--             -- 3. Niri IPC를 사용하여 타이틀 매칭 후 포커스 이동 (비동기)
+--             -- 쉘 스크립트보다 nvim 내부에서 실행하는 것이 타이밍상 더 정확합니다.
+--             local cmd = string.format(
+--               "niri msg --json windows | jq -r '.[] | select(.title | test(\"%s\"; \"i\")) | .id' | xargs -I {} niri msg action focus-window --id {}",
+--               file_name
+--             )
+--             vim.fn.jobstart(cmd)
+--           end, 50)
+--         end
+--       end,
+--     })
+--   end,
+-- }
+-- -- return {
+-- --   -- 별도의 설치가 필요한 외부 플러그인이 아니라, 
+-- --   -- nvim 자체 기능을 초기화할 때 실행하도록 설정합니다.
+-- --   "nvim-lua/plenary.nvim", -- 의존성이 필요 없더라도 구조상 아무 플러그인이나 지정하거나,
+-- --   config = function()
+-- --     vim.api.nvim_create_autocmd("BufReadPost", {
+-- --       group = vim.api.nvim_create_augroup("UserNotifyNewFile", { clear = true }),
+-- --       callback = function()
+-- --         -- [참고] noice.nvim이 설치되어 있다면 예쁜 팝업으로 뜹니다.
+-- --         vim.notify("새 파일이 추가되었습니다: " .. vim.fn.expand("%:t"), "info", { 
+-- --           title = "LazyVim",
+-- --           render = "compact", -- 너무 크면 compact로 조절 가능
+-- --         })
+-- --       end,
+-- --     })
+-- --   end,
+-- -- }

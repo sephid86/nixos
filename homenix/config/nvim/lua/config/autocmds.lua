@@ -23,3 +23,15 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "WinResized", "BufWinEnter" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    if vim.bo.buftype == "" then
+      -- 파일이 로드된 후 0.05초 뒤에 Niri에게 포커스 요청 (비동기)
+      vim.defer_fn(function()
+        -- 현재 창의 타이틀을 기반으로 Niri 포커스 명령 실행
+        local title = vim.fn.expand("%:t")
+        os.execute("niri msg --json windows | jq -r '.[] | select(.title | test(\"" .. title .. "\"; \"i\")) | .id' | xargs -I {} niri msg action focus-window --id {}")
+      end, 50)
+    end
+  end,
+})

@@ -226,7 +226,7 @@ in
     QT_IM_MODULE  = "fcitx";
     XMODIFIERS  = "@im=fcitx";
     SDL_IM_MODULE  = "fcitx";
-
+    # NVIM_LISTEN_ADDRESS="$HOME/.cache/nvim.pipe";
   };
 
   home.shellAliases = {
@@ -330,5 +330,27 @@ in
     (discord.override {
       commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
     })
+(pkgs.writeTextFile {
+  name = "nvim-add";
+  destination = "/bin/nvim-add";
+  executable = true;
+  text = ''
+#!/usr/bin/env bash
+NVIM_SOCKET="$HOME/.cache/nvim.sock"
+# [ "$#" -gt 0 ] && set -- $(realpath -- "$@")
+if [ "$#" -gt 0 ]; then
+    mapfile -t real_files < <(realpath -- "$@")
+    set -- "''${real_files[@]}"
+fi
+if n_=$(nvim --headless --server "$NVIM_SOCKET" --remote-expr "1" 2>/dev/null); then
+if [ "$#" -eq 0 ]; then set -- "unnamed"; fi
+  exec nvim --server "$NVIM_SOCKET" --remote "$@"
+else
+  rm -f $NVIM_SOCKET
+  exec nvim --listen "$NVIM_SOCKET" "$@"
+fi
+  '';
+})
   ];
+
 }

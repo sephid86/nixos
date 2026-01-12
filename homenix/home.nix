@@ -203,7 +203,11 @@ in
       };
     };
   };
-
+  qt = {
+    enable = true;
+    platformTheme.name = "kvantum"; # Qt 앱이 Kvantum 엔진을 쓰도록 강제
+    style.name = "kvantum";
+  };
   # xdg.portal = {
   #   config.niri = {
   #     default = [ "gnome" "gtk" "wlr" ];
@@ -327,6 +331,13 @@ in
     nerd-fonts.symbols-only
     font-awesome
     vial
+    (catppuccin-kvantum.override {
+      variant = "macchiato";
+      accent = "lavender";
+    })
+    # Qt 앱들이 Kvantum을 인식하도록 도와주는 플러그인들
+    libsForQt5.qtstyleplugin-kvantum
+    kdePackages.qtstyleplugin-kvantum
     (discord.override {
       commandLineArgs = "--enable-wayland-ime --wayland-text-input-version=3";
     })

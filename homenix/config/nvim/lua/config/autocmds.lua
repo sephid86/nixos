@@ -25,13 +25,12 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "WinResized", "BufWinEnter" }, {
 
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function()
-    if vim.bo.buftype == "" then
-      -- 파일이 로드된 후 0.05초 뒤에 Niri에게 포커스 요청 (비동기)
-      vim.defer_fn(function()
-        -- 현재 창의 타이틀을 기반으로 Niri 포커스 명령 실행
-        local title = vim.fn.expand("%:t")
-        os.execute("niri msg --json windows | jq -r '.[] | select(.title | test(\"" .. title .. "\"; \"i\")) | .id' | xargs -I {} niri msg action focus-window --id {}")
-      end, 50)
-    end
+    -- 타이틀이 Nvim Socket | 으로 시작하는 창을 찾아 포커스 (가장 짧고 빠름)
+    local cmd = "niri msg --json windows | jq -r '.[] | select(.title | startswith(\"Nvim Socket |\")) | .id' | xargs -I {} niri msg action focus-window --id {}"
+    
+    -- 50ms 딜레이는 타이틀 업데이트가 OS 수준에서 반영될 시간을 벌어줍니다.
+    vim.defer_fn(function()
+      vim.fn.jobstart(cmd)
+    end, 50)
   end,
 })

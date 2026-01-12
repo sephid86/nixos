@@ -57,7 +57,7 @@ window-rule {
     // 제목 중간에 " - YouTube"가 포함되고, 끝이 "Chrome"으로 끝나는 창 매칭
     // 정규표현식 설명: .+(어떤 제목) + " - YouTube"
     match title=".+ - YouTube - (Google )?Chrome$"
-    match title=r#".+ \| xHamster - (Google )?Chrome$"#
+    match title=r#".+ \| example - (Google )?Chrome$"#
 match app-id="swayimg"
     opacity 1.0
 // exclude-from-layout true

@@ -1,3 +1,7 @@
+[opener]
+edit = [
+    { run = 'nvim-add "$@"', block = true, desc = "Open in existing LazyVim" }
+]
 # [opener]
 # edit = [
 #     { run = 'sh -c "nvim --server ~/.cache/nvim.pipe --remote \"$@\" 2>/dev/null || (rm -f ~/.cache/nvim.pipe && nvim --listen ~/.cache/nvim.pipe \"$@\")" -- "$@"', block = true, desc = "Instant LazyVim" }
@@ -8,10 +12,10 @@
 #     { run = 'nvim --server "$NVIM_LISTEN_ADDRESS" --remote "$@" 2>/dev/null || nvim "$@"', block = true, desc = "Smart Open" }
 # ]
 # yazi 설정 예시
-[opener]
-edit = [
-    { run = 'nvim --server $XDG_RUNTIME_DIR/nvim.sock --remote "$@" 2>/dev/null || nvim --listen $XDG_RUNTIME_DIR/nvim.sock "$@"', block = true, desc = "Instant LazyVim" }
-]
+# [opener]
+# edit = [
+#     { run = 'nvim --server $XDG_RUNTIME_DIR/nvim.sock --remote "$@" 2>/dev/null || nvim --listen $XDG_RUNTIME_DIR/nvim.sock "$@"', block = true, desc = "Instant LazyVim" }
+# ]
 # [opener]
 # edit = [
 #     { run = 'nv "$@"', block = true, desc = "Open in existing LazyVim" }

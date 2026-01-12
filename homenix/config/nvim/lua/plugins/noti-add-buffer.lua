@@ -1,3 +1,4 @@
+return {}
 -- return {
 --   -- 이 플러그인은 외부 설치 없이 nvim 내부 기능을 활용합니다.
 --   "nvim-lua/plenary.nvim",

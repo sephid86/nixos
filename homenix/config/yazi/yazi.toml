@@ -1,3 +1,7 @@
+# [opener]
+# edit = [
+#     { run = 'wezterm start --class nvim-add  nvim-add "$@"', orphan = true, desc = "Open in New Window" }
+# ]
 [opener]
 edit = [
     { run = 'nvim-add "$@"', block = true, desc = "Open in existing LazyVim" }

@@ -3,11 +3,7 @@ window-rule {
   geometry-corner-radius 4
   clip-to-geometry true
 }
-window-rule {
-match is-urgent=true
-match title=r" - Nvim$"
-open-on-workspace "5"
-}
+
 window-rule {
   match is-active=false
   opacity 0.85
@@ -21,36 +17,10 @@ window-rule {
 }
 
 window-rule {
-  match app-id="mpv"
-    opacity 1.0
-  // default-column-width {}
-  open-floating true
-}
-window-rule {
-    match app-id="org.hyprland.polkit-agent"
-    open-floating true
-    // exclude-from-layout true 
-}
-window-rule {
-
-match app-id="foot"
-
-  // default-column-width {}
-// default-column-width { fixed 270; }
-
-}
-
-window-rule {
-  match app-id="wezterm-floating"
-  open-floating true
-}
-// Open the Firefox picture-in-picture player as floating by default.
-window-rule {
-  // This app-id regular expression will work for both:
-  // - host Firefox (app-id is "firefox")
-  // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-  match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-  open-floating true
+  match is-floating=false
+  shadow {
+    off
+  }
 }
 
 window-rule {
@@ -58,10 +28,34 @@ window-rule {
     // 정규표현식 설명: .+(어떤 제목) + " - YouTube"
     match title=".+ - YouTube - (Google )?Chrome$"
     match title=r#".+ \| example - (Google )?Chrome$"#
-match app-id="swayimg"
+    match app-id="swayimg"
+    match app-id="mpv"
     opacity 1.0
 // exclude-from-layout true
     // focus-on-open false
+}
+
+window-rule {
+  match app-id="org.hyprland.polkit-agent"
+  match app-id="mpv"
+  match app-id="wezterm-floating"
+  match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+  match title="PIP 모드"
+  open-floating true
+}
+
+window-rule {
+    match app-id="mpv"
+}
+
+window-rule {
+match is-urgent=true
+match title=r" - Nvim$"
+open-on-workspace "5"
+}
+
+window-rule {
+    // exclude-from-layout true 
 }
 
 // Example: block out two password managers from screen capture.
@@ -85,15 +79,16 @@ match app-id="swayimg"
 
 window-rule {
   match title="PIP 모드"
-  open-floating true
   // default-column-width {}
   // default-column-width { proportion 0.25; }
   // // max-height { proportion 0.7; }
   // // default-floating-height 300
   max-height 270
   default-floating-position x=10 y=10 relative-to="bottom-right"
-
   opacity 1.0
+  shadow {
+    off
+  }
 }
 
 // window-rule {

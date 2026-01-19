@@ -114,7 +114,7 @@ in
     google-chrome = {
       enable = true;
       commandLineArgs = [
-        "--password-store=basic"
+        "--password-store=gnome-libsecret"
         "--enable-features=vulkan"
         "--use-angle=vulkan"
       ];
@@ -222,7 +222,7 @@ in
   home.sessionVariables = {
     EDITOR = "nvim";
     NIXOS_OZONE_WL = "1";
-    SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+    # SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
     QT_QPA_PLATFORM = "wayland";
 
     GLFW_IM_MODULE  = "ibus";
@@ -298,6 +298,7 @@ in
     gcc
     lua
     lua52Packages.lgi
+    lua52Packages.luasocket
     # lgi가 실행 중에 참조할 필수 런타임 라이브러리
     gobject-introspection
     glib
@@ -364,4 +365,13 @@ fi
 })
   ];
 
+services.wlsunset = {
+  enable = true;
+  latitude = "37.5";
+  longitude = "127.0";
+  temperature = {
+    day = 6000;   # 낮에는 표준 색온도
+    night = 5500; # 밤에는 따뜻한 색온도 (캣푸씬 테마와 찰떡!)
+  };
+};
 }

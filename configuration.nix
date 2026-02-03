@@ -55,7 +55,7 @@
       "quiet"
       "splash"
       "vga=current"
-      "udev.log_priority=5"
+      "udev.log_priority=3"
       "usbcore.autosuspend=-1"
     ];
   };
@@ -175,6 +175,10 @@
   programs.dconf.enable = true;
   hardware.keyboard.qmk.enable = true;
   # programs.nix-ld.enable = true;
+# services.hd-idle = {
+#   enable = true;
+#   idleTime = 600; # 10분 (단위: 초)
+# };
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -195,14 +199,22 @@
   # 모든 HDD 를 10분간 미사용시 spindown 합니다.
   # 절전과 HDD 의 수명보호를 위해. hdparm pkg 필요.
   # 당신의 데이터는 소중하니까요.
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="block", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -S 120 /dev/%k"
-  '';
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "hdparm-udev-rules";
+      text = ''
+        ACTION=="add|change", SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", KERNEL=="sd*", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -B 128 /dev/%k"
+        ACTION=="add|change", SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", KERNEL=="sd*", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -S 120 /dev/%k"
+      '';
+      destination = "/etc/udev/rules.d/69-hdparm.rules";
+    })
+  ];
 
   environment.systemPackages = with pkgs; [
     vulkan-tools
     libva-utils
     hdparm
+    # hd-idle
     # xdg-utils 
     # glib
     # shared-mime-info

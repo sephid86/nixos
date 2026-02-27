@@ -12,8 +12,10 @@ vim.g.sw=2
 vim.g.sts=2
 
 vim.opt.spelllang = { "en", "cjk" }
+-- vim.cmd("set spl=en,cjk")
 
-vim.cmd("set fencs=ucs-bom,utf-8,default,euc-kr,cp949")
+vim.opt.fileencodings = { "ucs-bom", "utf-8", "default", "euc-kr", "cp949" }
+-- vim.cmd("set fencs=ucs-bom,utf-8,default,euc-kr,cp949")
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.guicursor = ""

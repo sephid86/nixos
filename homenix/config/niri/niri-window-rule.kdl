@@ -27,7 +27,7 @@ window-rule {
     // 제목 중간에 " - YouTube"가 포함되고, 끝이 "Chrome"으로 끝나는 창 매칭
     // 정규표현식 설명: .+(어떤 제목) + " - YouTube"
     match title=".+ - YouTube - (Google )?Chrome$"
-    match title=r#".+ \| example - (Google )?Chrome$"#
+    match title=r#".+ \| xHamster - (Google )?Chrome$"#
     match app-id="swayimg"
     match app-id="mpv"
     opacity 1.0
@@ -37,7 +37,7 @@ window-rule {
 
 window-rule {
   match app-id="org.hyprland.polkit-agent"
-  match app-id="mpv"
+  // match app-id="mpv"
   match app-id="wezterm-floating"
   match app-id=r#"firefox$"# title="^Picture-in-Picture$"
   match title="PIP 모드"
@@ -46,6 +46,7 @@ window-rule {
 
 window-rule {
     match app-id="mpv"
+  default-column-width { proportion 0.5; }
 }
 
 window-rule {

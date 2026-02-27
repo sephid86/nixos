@@ -62,7 +62,8 @@ in
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
-      sansSerif = [ "Pretendard" ];
+      # sansSerif = [ "Pretendard" ];
+      sansSerif = [ "Noto Sans CJK KR" ];
       serif = [ "Noto Serif CJK KR" ];
       monospace = [ "D2CodingLigature Nerd Font" ];
     };
@@ -115,7 +116,8 @@ in
       enable = true;
       commandLineArgs = [
         "--password-store=gnome-libsecret"
-        "--enable-features=vulkan"
+        # "--enable-features=vulkan"
+        "--enable-features=vulkan,DefaultANGLEVulkan,Vulkan,VulkanFromANGLE"
         "--use-angle=vulkan"
       ];
     };
@@ -325,6 +327,7 @@ in
     glib
     shared-mime-info
     pretendard
+    noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     noto-fonts-color-emoji
     d2coding

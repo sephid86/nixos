@@ -192,7 +192,7 @@ c = skip_file
 s = mode slideshow
 n = animation
 f = fullscreen
-Return = mode gallery
+Return = mode viewer
 Left = step_left 10
 Right = step_right 10
 Up = step_up 10
@@ -217,7 +217,7 @@ a = antialiasing
 r = reload
 i = info
 Shift+Delete = exec rm -f '%' && echo "File removed: %"; skip_file
-Escape = exit
+Escape = mode gallery
 q = exit
 # Mouse related
 ScrollLeft = step_right 5
@@ -252,9 +252,9 @@ d = next_dir
 Space = pause
 i = info
 f = fullscreen
-Return = mode
-Escape = exit
-q = exit
+Return = none
+Escape = mode viewer
+q = none
 
 ################################################################################
 # Gallery mode key binding configuration: key = action [parameters]
